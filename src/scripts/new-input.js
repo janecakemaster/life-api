@@ -4,7 +4,13 @@ const $form = document.querySelector('form')
 const $clearButton = document.querySelector('[data-action="clear"]')
 const $list = document.querySelector('.list')
 
-$form.addEventListener('submit', (e) => {
+loadAndRenderItems()
+hoodie.store.on('change', loadAndRenderItems)
+$clearButton.addEventListener('click', () => hoodie.store.removeAll())
+$list.addEventListener('click', handleListClick)
+$form.addEventListener('submit', handleForm)
+
+function handleForm (e) {
   e.preventDefault()
 
   const displayName = e.target.querySelector('#name').value
@@ -30,22 +36,9 @@ $form.addEventListener('submit', (e) => {
       $form.reset()
     })
     .catch(catchError)
-})
-
-function loadAndRenderItems () {
-  hoodie.store.findAll((item) => item.type.startsWith('input-'))
-    .then(render)
 }
 
-loadAndRenderItems()
-
-hoodie.store.on('change', loadAndRenderItems)
-
-$clearButton.addEventListener('click', () => {
-  hoodie.store.removeAll()
-})
-
-$list.addEventListener('click', (e) => {
+function handleListClick (e) {
   e.preventDefault()
 
   const action = e.target.dataset.action
@@ -61,7 +54,7 @@ $list.addEventListener('click', (e) => {
       hoodie.store.remove({id})
       break
   }
-})
+}
 
 function render (items) {
   if (items.length === 0) {
@@ -88,6 +81,11 @@ function render (items) {
 
       return result
     }).join('')
+}
+
+function loadAndRenderItems () {
+  hoodie.store.findAll((item) => item.type.startsWith('input-'))
+    .then(render)
 }
 
 function orderByName (item1, item2) {

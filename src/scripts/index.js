@@ -4,49 +4,13 @@ const $log = document.querySelector('.log')
 const $inputs = document.querySelector('.inputs')
 const $clearButton = document.querySelector('[data-action="clear"]')
 
-function getToday () {
-  return new Date().toJSON().slice(0, 10)
-}
-
-function catchError (err) {
-  if (err.status !== 404) {
-    console.info(err)
-  }
-}
-
-/*
- * With hoodie we're storing our data locally and it will stick around next time you reload.
- * This means each time the page loads we need to find any previous notes that we have stored.
- */
-function loadAndRenderItems () {
-  hoodie.store.findAll((item) => item.type.startsWith('input-'))
-    .then(renderInputs)
-    .catch(catchError)
-
-  hoodie.store.findAll((item) => item.type.startsWith('log-'))
-    .then(renderLog)
-    .catch(catchError)
-}
-
-/* render items initially on page load */
 loadAndRenderItems()
-
-$clearButton.addEventListener('click', () => {
-  hoodie.store.removeAll()
-})
-
-/**
- * Anytime there is a data change we reload and render the list of items
- */
 hoodie.store.on('change', loadAndRenderItems)
+$clearButton.addEventListener('click', () => hoodie.store.removeAll())
+$log.addEventListener('click', handleLogClick)
+$inputs.addEventListener('click', handleInputsClick)
 
-/**
- * As items are dynamically added an removed, we cannot add event listeners
- * to the buttons. Instead, we register a click event on the items table and
- * then check if one of the buttons was clicked.
- * See: https://davidwalsh.name/event-delegate
- */
-$log.addEventListener('click', (e) => {
+function handleLogClick (e) {
   e.preventDefault()
 
   const action = e.target.dataset.action
@@ -62,9 +26,9 @@ $log.addEventListener('click', (e) => {
       hoodie.store.remove({id})
       break
   }
-})
+}
 
-$inputs.addEventListener('click', (e) => {
+function handleInputsClick (e) {
   switch (e.target.getAttribute('data-input-type')) {
     case 'time':
       logTime(e.target)
@@ -76,39 +40,6 @@ $inputs.addEventListener('click', (e) => {
       logCompleted(e.target)
       break
   }
-})
-
-function logTime (elem) {
-  hoodie.store.add({
-    type: `log-${elem.getAttribute('data-type')}`,
-    inputType: 'input-time',
-    name: elem.textContent,
-    time: new Date(),
-  })
-}
-
-function logScale (elem) {
-  const inputID = document.querySelector('[data-input-type="scale"]').id
-  const type = `log-${elem.getAttribute('data-type')}`
-  const name = document.querySelector(`[for="${inputID}"]`).textContent
-
-  hoodie.store.updateOrAdd({
-    id: `${type}${getToday()}`,
-    type,
-    inputType: 'input-scale',
-    name: name,
-    level: elem.value,
-  })
-}
-
-function logCompleted (elem) {
-  hoodie.store.updateOrAdd({
-    id: `${elem.getAttribute('data-type')}${getToday()}`,
-    type: `log-${elem.getAttribute('data-type')}`,
-    inputType: 'input-completed',
-    name: elem.textContent,
-    completed: true,
-  })
 }
 
 function renderLog (items) {
@@ -181,6 +112,59 @@ function renderInputs (items) {
     }).join('')
 }
 
+function loadAndRenderItems () {
+  hoodie.store.findAll((item) => item.type.startsWith('input-'))
+    .then(renderInputs)
+    .catch(catchError)
+
+  hoodie.store.findAll((item) => item.type.startsWith('log-'))
+    .then(renderLog)
+    .catch(catchError)
+}
+
+function logTime (elem) {
+  hoodie.store.add({
+    type: `log-${elem.getAttribute('data-type')}`,
+    inputType: 'input-time',
+    name: elem.textContent,
+    time: new Date(),
+  })
+}
+
+function logScale (elem) {
+  const inputID = document.querySelector('[data-input-type="scale"]').id
+  const type = `log-${elem.getAttribute('data-type')}`
+  const name = document.querySelector(`[for="${inputID}"]`).textContent
+
+  hoodie.store.updateOrAdd({
+    id: `${type}${getToday()}`,
+    type,
+    inputType: 'input-scale',
+    name: name,
+    level: elem.value,
+  })
+}
+
+function logCompleted (elem) {
+  hoodie.store.updateOrAdd({
+    id: `${elem.getAttribute('data-type')}${getToday()}`,
+    type: `log-${elem.getAttribute('data-type')}`,
+    inputType: 'input-completed',
+    name: elem.textContent,
+    completed: true,
+  })
+}
+
 function orderByCreatedAt (item1, item2) {
   return item1.createdAt < item2.createdAt ? 1 : -1
+}
+
+function getToday () {
+  return new Date().toJSON().slice(0, 10)
+}
+
+function catchError (err) {
+  if (err.status !== 404) {
+    console.info(err)
+  }
 }

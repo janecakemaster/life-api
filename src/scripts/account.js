@@ -38,13 +38,13 @@ document.querySelector('form.signup').addEventListener('submit', function (event
 
   hoodie.account.signUp({
     username: email,
-    password: password
+    password,
   })
 
     .then(function () {
       return hoodie.account.signIn({
         username: email,
-        password: password
+        password,
       })
     })
 
@@ -64,7 +64,7 @@ document.querySelector('form.signin').addEventListener('submit', function (event
 
   hoodie.account.signIn({
     username: email,
-    password: password
+    password,
   })
 
     .then(setHashState)
@@ -80,9 +80,7 @@ document.querySelector('form.change-email').addEventListener('submit', function 
 
   const email = this.querySelector('[name=email]').value
 
-  hoodie.account.update({
-    username: email
-  })
+  hoodie.account.update({username: email})
 
     .catch(handleError)
 })
@@ -97,7 +95,7 @@ document.querySelector('form.password-reset').addEventListener('submit', functio
 
   hoodie.account.request({
     type: 'passwordreset',
-    username: email
+    username: email,
   })
 
     .then(function () {
@@ -105,7 +103,6 @@ document.querySelector('form.password-reset').addEventListener('submit', functio
       document.querySelector('[data-show="password-reset"]').dataset.show = 'signin'
       setHashState('signin')
     })
-
     .catch(handleError)
 })
 
@@ -117,9 +114,7 @@ document.querySelector('form.change-password').addEventListener('submit', functi
 
   const password = this.querySelector('[name=password]').value
 
-  hoodie.account.update({
-    password: password
-  })
+  hoodie.account.update({password})
 
     .catch(handleError)
 })
