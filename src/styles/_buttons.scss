@@ -1,5 +1,6 @@
 button {
   font-family: inherit;
+  font-size: inherit;
   cursor: pointer;
   color: inherit;
   border: 1px solid $lightestColor;
@@ -14,7 +15,7 @@ button {
   margin: 1rem;
   padding: 1rem;
   color: inherit;
-  border-radius: 5px;
+  border-radius: 3px;
   background: white;
 
   &.small {

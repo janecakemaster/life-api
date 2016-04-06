@@ -5,6 +5,7 @@ input[type='text'] {
   font-size: inherit;
   color: inherit;
   border: 1px solid $lightestColor;
+  border-radius: 3px;
 
   &:focus {
     border-color: transparent;
