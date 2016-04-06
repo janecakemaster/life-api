@@ -4,10 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>life-api</title>
-  <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="css/app.css" />
+  <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/app.css">
 </head>
-
 <body data-account-state="" data-store-state="">
   <header>
     <h1><a href="/">life-api</a></h1>
@@ -24,45 +23,17 @@
       </ul>
     </nav>
   </header>
-
   <main>
-    <form class="add-type">
-      <fieldset class="input-type">
-        <legend>Input type</legend>
-        <ul>
-          <li>
-            <label for="time">Time</label>
-            <input type="radio" name="log-type" id="time" value="time" />
-          </li>
-          <li>
-            <label for="range">Range</label>
-            <input type="radio" name="log-type" id="range" value="range" />
-          </li>
-          <li>
-            <label for="done">Done Today</label>
-            <input type="radio" name="log-type" id="done" value="done" />
-          </li>
-        </ul>
-      </fieldset>
-
-      <label for="name">Input Name</label>
-      <input type="text" id="name">
-
-      <label for="note">Enable note field</label>
-      <input type="checkbox" id="note">
-
-      <button type="submit">Add item</button>
-    </form>
-
-    <button data-name="adderall" data-log-type="time">Adderall</button>
-    <button data-name="adderall" data-log-type="time">Adderall</button>
-
+    <button data-type="adderall" data-log-type="time">Adderall</button>
+    <button data-type="meditate" data-log-type="completed">Meditated</button>
+    <label for="arm-pain">Arm pain level</label>
+    <input data-type="arm-pain" id="arm-pain" data-log-type="scale" type="range" min="0" max="10">
     <div class="items" data-num="0">
       <table>
         <tbody class="placeholder" data-hide-if="store-not-empty">
           <tr>
             <td colspan="5">
-              no way
+              no data yet
             </td>
           </tr>
         </tbody>
@@ -71,10 +42,7 @@
       </table>
       <button data-action="clear" data-hide-if="store-empty">Clear tracked items</button>
     </div>
-
   </main>
-
-
   <script src="/hoodie/client.js"></script>
   <script src="js/common.js"></script>
   <script src="js/index.js"></script>

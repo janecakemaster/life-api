@@ -1,6 +1,5 @@
 /* global hoodie */
 
-const $time = document.querySelector('[data-log-type="time"]')
 const $itemsList = document.querySelector('.items .list')
 const $clearButton = document.querySelector('[data-action="clear"]')
 
@@ -15,7 +14,7 @@ function loadAndRenderItems () {
 /* render items initially on page load */
 loadAndRenderItems()
 
-$clearButton.addEventListener('click', function () {
+$clearButton.addEventListener('click', () => {
   hoodie.store.removeAll()
 })
 
@@ -30,15 +29,15 @@ hoodie.store.on('change', loadAndRenderItems)
  * then check if one of the buttons was clicked.
  * See: https://davidwalsh.name/event-delegate
  */
-$itemsList.addEventListener('click', function (event) {
-  event.preventDefault()
+$itemsList.addEventListener('click', (e) => {
+  e.preventDefault()
 
-  const action = event.target.dataset.action
+  const action = e.target.dataset.action
   if (!action) {
     return
   }
 
-  const row = event.target.parentNode.parentNode
+  const row = e.target.parentNode.parentNode
   const id = row.dataset.id
   let amount = row.firstChild.textContent
   let note = row.firstChild.nextSibling.textContent
@@ -62,21 +61,55 @@ $itemsList.addEventListener('click', function (event) {
   }
 })
 
-$time.addEventListener('click', function (e) {
-  switch (e.target.getAttribute('data-log-type')) {
-    case 'time':
-      logTime(e.target.getAttribute('data-name'))
-      break
-    default:
-      console.log(e.target.attributes)
-  }
+;[].forEach.call(document.querySelectorAll('[data-log-type]'), (el) => {
+  const event = el.nodeName === 'BUTTON' ? 'click' : 'input'
+
+  el.addEventListener(event, (e) => {
+    switch (e.target.getAttribute('data-log-type')) {
+      case 'time':
+        logTime(e.target)
+        break
+      case 'scale':
+        logScale(e.target)
+        break
+      case 'completed':
+        logCompleted(e.target)
+        break
+      default:
+        console.log(e.target.attributes)
+    }
+  })
 })
 
-function logTime (name) {
+function logTime (elem) {
   hoodie.store.add({
-    name,
+    type: elem.getAttribute('data-type'),
+    name: elem.textContent,
     time: new Date(),
-    type: 'time'
+    logType: 'time'
+  })
+}
+
+function logScale (elem) {
+  const id = document.querySelector('[data-log-type="scale"]').id
+  const name = document.querySelector(`[for="${id}"]`).textContent
+
+  hoodie.store.updateOrAdd({
+    type: elem.getAttribute('data-type'),
+    id: `${elem.getAttribute('data-type')}${new Date().toJSON().slice(0, 10)}`,
+    name: name,
+    level: elem.value,
+    logType: 'scale'
+  })
+}
+
+function logCompleted (elem) {
+  hoodie.store.updateOrAdd({
+    type: elem.getAttribute('data-type'),
+    id: `${elem.getAttribute('data-type')}`,
+    name: elem.textContent,
+    completed: true,
+    logType: 'completed'
   })
 }
 
@@ -89,13 +122,21 @@ function render (items) {
   document.body.dataset.storeState = 'not-empty'
   $itemsList.innerHTML = items
     .sort(orderByCreatedAt)
-    .map(function (item) {
-      return '<tr data-id="' + item.id + '">' +
-      '<td>' + item.name + '</td>' +
-      '<td>' + item.type + '</td>' +
-      '<td>' + item.time + '</td>' +
-      '<td><a href="#" data-action="remove">Delete</a></td>' +
-      '</tr>'
+    .map((item) => {
+      const exclude = ['id', 'createdAt', 'updatedAt', '_rev', 'type']
+      const date = new Date(item.updatedAt)
+      let result = `<tr data-id="${item.id}">
+      <td class="updatedAt">${date}</td>`
+
+      for (let key in item) {
+        if (!exclude.includes(key)) {
+          result += `<td class="${key}">${item[key]}</td>`
+        }
+      }
+
+      result += '<td><a href="#" data-action="remove">Delete</a></td></tr>'
+
+      return result
     }).join('')
 }
 
