@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>life-api</title>
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+
+  <body data-account-state="" data-store-state="">
+    <header>
+      <h1><a href="/">life-api</a></h1>
+      <nav>
+        <ul>
+          <li>
+            <a href="account.html">
+              <span data-hide-if="signed-in">login/sign up</span>
+              <span data-hide-if="signed-out" data-value="username"></span>
+            </a>
+          </li>
+          <li><a href="about.html">about</a></li>
+          <li><a href="example.html">example</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <form class="add-item">
+        <div class="amount">
+          <label for="input-amount">Amount</label>
+          <input type="number" name="amount" id="input-amount" required>
+        </div>
+        <div class="item">
+          <label for="input-note">Item</label>
+          <input type="text" name="note" id="input-note" required>
+        </div>
+        <button type="submit">Add item</button>
+      </form>
+
+      <div class="items" data-num="0">
+        <table>
+          <tbody class="placeholder" data-hide-if="store-not-empty">
+            <tr>
+              <td colspan="4">
+                Nothing tracked yet, add something!
+              </td>
+            </tr>
+          </tbody>
+          <tbody class="list" data-hide-if="store-empty"></tbody>
+        </table>
+        <button data-action="clear" data-hide-if="store-empty">
+          Clear tracked items
+        </button>
+      </div>
+    </main>
+
+    <script src="/hoodie/client.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/example.js"></script>
+  </body>
+</html>
