@@ -31,13 +31,13 @@ input[type=range] {
     outline: none;
 
     &::-webkit-slider-runnable-track {
-      background: $lightestColor;
+      background: $inputColor3;
     }
     &::-ms-fill-lower {
-      background: $lightestColor;
+      background: $inputColor3;
     }
     &::-ms-fill-upper {
-      background: $lightestColor;
+      background: $inputColor3;
     }
   }
 
@@ -84,7 +84,7 @@ input[type=range] {
     height: 8.4px;
     cursor: pointer;
     border-radius: 1.3px;
-    background: $lightestColor;
+    background: $inputColor3;
   }
 
   &::-moz-range-track {
@@ -92,7 +92,7 @@ input[type=range] {
     height: 8.4px;
     cursor: pointer;
     border-radius: 1.3px;
-    background: $lightestColor;
+    background: $inputColor3;
   }
 
   &::-ms-track {
@@ -111,6 +111,6 @@ input[type=range] {
 
   &::-ms-fill-upper {
     border-radius: 2.6px;
-    background: $lightestColor;
+    background: $inputColor3;
   }
 }

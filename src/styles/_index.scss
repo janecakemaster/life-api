@@ -31,3 +31,9 @@
 .input-completed button {
   @include circle(100px, $inputColor2);
 }
+
+.input-scale {
+  min-width: 300px;
+  width: 100%;
+  padding: 0 3rem;
+}
