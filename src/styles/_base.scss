@@ -368,14 +368,6 @@ table a {
   text-decoration: none;
 }
 
-table tr td:first-child {
-  width: 150px;
-}
-
-table tr td:nth-child(2) {
-  width: 300px;
-}
-
 table td > a {
   display: block;
   padding: 1rem;
