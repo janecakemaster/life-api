@@ -1,12 +1,17 @@
 button {
   cursor: pointer;
+  border: 1px solid $lightestColor;
+
+  &:hover, 
+  &:focus {
+    border: 1px solid $lightColor;
+  }
 }
 
 .btn {
   margin: 1rem;
   padding: 1rem;
   color: inherit;
-  border: 1px solid #ccc;
   border-radius: 5px;
   background: white;
 

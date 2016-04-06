@@ -1,17 +1,22 @@
-input {
+input[type='text'] {
+  width: 100%;
   margin: 0;
   padding: 1rem;
   font-size: inherit;
   color: inherit;
-  border: 1px solid $lightColor;
+  border: 1px solid $lightestColor;
 }
 
 label {
   margin-bottom: 8px;
 }
 
-input:focus {
+input[type='text']:focus {
   border-color: transparent;
   outline: none;
-  box-shadow: 0 0 0 2px blue;
+  box-shadow: 0 0 0 1px $lightColor;
+}
+
+fieldset {
+  border: 0;
 }
