@@ -62,8 +62,6 @@ $inputs.addEventListener('click', (e) => {
     case 'completed':
       logCompleted(e.target)
       break
-    default:
-      console.log(e.target.attributes)
   }
 })
 
