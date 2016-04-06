@@ -1,0 +1,17 @@
+/* toggle content based on account & store status */
+[data-account-state] {
+  display: none;
+}
+[data-account-state='signed-in'],
+[data-account-state='signed-out'] {
+  display: block;
+}
+[data-store-state='empty'] [data-hide-if='store-empty'],
+[data-store-state='not-empty'] [data-hide-if='store-not-empty'] {
+  display: none;
+}
+[data-account-state='signed-in'] [data-hide-if='signed-in'],
+[data-account-state='signed-out'] [data-hide-if='signed-out'] {
+  display: none;
+}
+

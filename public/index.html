@@ -26,7 +26,36 @@
   </header>
 
   <main>
-    <button class="time" data-name="adderall" data-log-type="time">Adderall</button>
+    <form class="add-type">
+      <fieldset class="input-type">
+        <legend>Input type</legend>
+        <ul>
+          <li>
+            <label for="time">Time</label>
+            <input type="radio" name="log-type" id="time" value="time" />
+          </li>
+          <li>
+            <label for="range">Range</label>
+            <input type="radio" name="log-type" id="range" value="range" />
+          </li>
+          <li>
+            <label for="done">Done Today</label>
+            <input type="radio" name="log-type" id="done" value="done" />
+          </li>
+        </ul>
+      </fieldset>
+
+      <label for="name">Input Name</label>
+      <input type="text" id="name">
+
+      <label for="note">Enable note field</label>
+      <input type="checkbox" id="note">
+
+      <button type="submit">Add item</button>
+    </form>
+
+    <button data-name="adderall" data-log-type="time">Adderall</button>
+    <button data-name="adderall" data-log-type="time">Adderall</button>
 
     <div class="items" data-num="0">
       <table>
@@ -42,7 +71,9 @@
       </table>
       <button data-action="clear" data-hide-if="store-empty">Clear tracked items</button>
     </div>
+
   </main>
+
 
   <script src="/hoodie/client.js"></script>
   <script src="js/common.js"></script>

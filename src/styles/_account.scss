@@ -1,0 +1,66 @@
+
+
+/* account page */
+.account-page main label {
+  font-size: .8rem;
+}
+.account-page main input {
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+  .account-page main input {
+    width: 300px;
+  }
+}
+
+[data-show] > * {
+  display: none;
+}
+[data-show='signin'] .signin,
+[data-show='signup'] .signup,
+[data-show='password-reset'] .password-reset,
+[data-show='options'] .options,
+[data-show='change-email'] .change-email,
+[data-show='change-password'] .change-password,
+[data-show='delete-account'] .delete-account {
+  display: block;
+}
+
+.signup-link {
+  margin-top: 25px;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid blue;
+  border-radius: 5px;
+}
+.signup-link h3 {
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.options button {
+  display: block;
+  position: relative;
+  width: 300px;
+  text-align: left;
+  color: #333;
+  border: 2px solid #333;
+  background: transparent;
+}
+
+.options button:after {
+  position: absolute;
+  right: 15px;
+  content: '►';
+}
+.options button:hover {
+  color: blue;
+  border: 2px solid blue;
+}
+
+.options button:not(:last-child) {
+  margin-bottom: 8px;
+}

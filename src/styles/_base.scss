@@ -1,27 +1,23 @@
 * {
-  box-sizing: border-box;
+  box-sizing: border-box;;
+
 }
+
 html {
-  color: #222;
   font: 14px/1.3 Helvetica, sans-serif;
-}
+  color: #222}
+
 body {
-  margin: 1rem auto;
   max-width: 600px;
+  margin: 1rem auto;
   padding: 0 1rem;
 }
 
-a {
-  color: blue;
+a,
+a:active,
+a:visited {
   text-decoration: none;
-}
-
-a.active {
-  text-decoration: underline;
-}
-
-a:hover {
-  text-decoration: underline;
+  color: blue;
 }
 
 p {
@@ -29,369 +25,35 @@ p {
 }
 
 label {
-  font-weight: bold;
   margin-bottom: 8px;
 }
 
 button,
 input {
-  color: inherit;
-  font: inherit;
   margin: 0;
+  font: inherit;
+  color: inherit;
 }
+
 button {
   cursor: pointer;
 }
-button.small {
-  padding: .5rem;
-  font-size: .8rem;
-}
-input {
-  display: block;
-  padding: 1rem;
-  width: 100%;
-}
 
-table {
-  width: 100%;
-}
-
-/* Header */
-body > header {
-  padding: 25px 0;
-  position: relative;
-}
-body > header a {
-  text-decoration: none;
-}
-body > header h1 {
-  font-size: 2em;
-  line-height: 1em;
-  margin-top: 0;
-  margin-bottom: 15px;
-}
-@media (min-width: 768px) {
-  body > header {
-    padding: 45px 0;
-  }
-  body > header h1 {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  body > header nav {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-}
-body > header ul {
-  list-style-type: none;
-  display: block;
-  padding: 0;
+ul,
+li {
   margin: 0;
-}
-body > header ul li {
-  display: inline-block;
-}
-body > header ul li:not(:last-child) {
-  margin-right: 20px;
-}
-
-/* toggle content based on account & store status */
-[data-account-state] {
-  display: none;
-}
-[data-account-state='signed-in'],
-[data-account-state='signed-out'] {
-  display: block;
-}
-[data-store-state='empty'] [data-hide-if="store-empty"],
-[data-store-state='not-empty'] [data-hide-if="store-not-empty"] {
-  display: none;
-}
-[data-account-state='signed-in'] [data-hide-if="signed-in"],
-[data-account-state='signed-out'] [data-hide-if="signed-out"] {
-  display: none;
-}
-
-/* index page */
-form.add-item {
-  border-bottom: 1px solid #333;
-  padding-bottom: 25px;
-  margin-bottom: 25px;
-  position: relative;
-}
-
-form.add-item:after {
-  content: '';
-  display: block;
-  clear: both;
-}
-
-form.add-item .tracker-amount,
-form.add-item .tracker-item,
-form.add-item .btn {
-  width: 100%;
-}
-
-form.add-item input {
-  margin-bottom: 20px;
-}
-
-form.add-item label {
-  margin-bottom: 8px;
-}
-
-form.add-item button {
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  form.add-item {
-    padding-bottom: 5px;
-  }
-
-  form.add-item .amount {
-    width: 16%;
-    float: left;
-  }
-
-  form.add-item .item {
-    width: 50%;
-    float: left;
-    margin: 0 2%;
-  }
-
-  form.add-item button {
-    width: 30%;
-    float: left;
-    margin-top: 27px;
-  }
-}
-
-.items {
-  display: none;
-}
-[data-store-state='empty'] .items,
-[data-store-state='not-empty'] .items {
-  display: block;
-}
-
-.items .placeholder td {
-  text-align: center;
-}
-.items table + button {
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  .items table + button {
-    width: auto;
-    float: right;
-  }
-}
-
-/* account page */
-.account-page main label {
-  font-size: .8rem;
-}
-.account-page main input {
-  font-size: 1rem;
-  padding: 1rem;
-}
-
-@media (min-width: 768px) {
-  .account-page main input {
-    width: 300px;
-  }
-}
-
-[data-show] > * {
-  display: none;
-}
-[data-show="signin"] .signin,
-[data-show="signup"] .signup,
-[data-show="password-reset"] .password-reset,
-[data-show="options"] .options,
-[data-show="change-email"] .change-email,
-[data-show="change-password"] .change-password,
-[data-show="delete-account"] .delete-account {
-  display: block;
-}
-
-.signup-link {
-  margin-top: 25px;
-  text-align: center;
-  border: 1px solid blue;
-  border-radius: 5px;
-  padding: 15px;
-}
-.signup-link h3 {
-  display: inline-block;
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-
-.options button {
-  display: block;
-  border: 2px solid #333;
-  color: #333;
-  background: transparent;
-  text-align: left;
-  width: 300px;
-  position: relative;
-}
-
-.options button:after {
-  content: '►';
-  position: absolute;
-  right: 15px;
-}
-.options button:hover {
-  border: 2px solid blue;
-  color: blue;
-}
-
-.options button:not(:last-child) {
-  margin-bottom: 8px;
-}
-/* Layout */
-
-
-
-table td input {
-  width: 100%;
-}
-
-.return-link {
-  display: block;
-  margin-bottom: 15px;
-}
-
-/* Components */
-
-.account-settings {
-  display: none;
-}
-
-
-.signup-toggle,
-.signin-toggle {
-  font-size: .8em;
-}
-
-.signup-toggle {
-  text-align: center;
-  color: #333;
-}
-
-.signup-toggle:hover {
-  text-decoration: none
-}
-
-.signout-container {
-  border-top: 1px solid #A1A1A1;
-  margin: 25px 0;
-  padding: 15px 0;
-  text-align: right;
-}
-
-button,
-.btn {
-  display: inline-block;
-  border-radius: 5px;
-  background: #CCC;
-  color: #000;
-  padding: 1rem;
-  border: 1px solid #CCC;
-}
-
-button,
-.btn:hover {
-  text-decoration: none;
-}
-
-.btn-link {
-  padding: 1rem;
-}
-
-button.primary {
-  background-color: blue;
-  color: #fff;
-  border: 1px solid blue;
-}
-
-input,
-table {
-  border: 1px solid #A1A1A1;
-}
-
-table {
-  border-collapse: collapse;
-}
-
-table th:first-child{
-  width: 20%;
-}
-
-.btn:focus,
-input:focus {
-  border-color: transparent;
-  outline: none;
-  box-shadow: 0 0 0 2px blue;
-}
-
-table {
-  border: 1px solid blue;
-  margin-bottom: 15px;
-}
-
-table th,
-table td {
-  padding: 1rem;
-  text-align: left;
-}
-
-table th:first-child,
-table td:first-child {
-  padding: 1rem;
-}
-
-table td {
-  border: 1px solid #A1A1A1;
-}
-
-table a {
-  text-decoration: none;
-}
-
-table td > a {
-  display: block;
-  padding: 1rem;
-  margin: -1rem;
-}
-
-img.hoodie-camp {
-  max-width: 100%;
-}
-
-img.low-profile-dog {
-  width: 120px;
-  height: 160px;
-  float: right;
+  padding: 0;
+  list-style-type: none;
 }
 
 /* Show content for screenreaders only */
 .sr-only {
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
   position: absolute;
   width: 1px;
   height: 1px;
-  padding: 0;
   margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  padding: 0;
   border: 0;
 }

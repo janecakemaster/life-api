@@ -1,6 +1,6 @@
 /* global hoodie */
 
-const $time = document.querySelector('.time')
+const $time = document.querySelector('[data-log-type="time"]')
 const $itemsList = document.querySelector('.items .list')
 const $clearButton = document.querySelector('[data-action="clear"]')
 
@@ -47,7 +47,6 @@ $itemsList.addEventListener('click', function (event) {
     case 'cancel':
       loadAndRenderItems()
       break
-
     case 'remove':
       hoodie.store.remove({
         id: id

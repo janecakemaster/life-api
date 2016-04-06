@@ -1,0 +1,30 @@
+header {
+  position: relative;
+  padding: 25px 0;
+}
+header a {
+  text-decoration: none;
+}
+header h1 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 2em;
+  line-height: 1em;
+}
+@media (min-width: 768px) {
+  header {
+    padding: 45px 0;
+  }
+  header h1 {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+  header nav {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+  }
+}

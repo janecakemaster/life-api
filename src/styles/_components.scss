@@ -1,0 +1,114 @@
+.account-settings {
+  display: none;
+}
+
+.signup-toggle,
+.signin-toggle {
+  font-size: .8em;
+}
+
+.signup-toggle {
+  text-align: center;
+  color: #333;
+}
+
+.signup-toggle:hover {
+  text-decoration: none;
+}
+
+.signout-container {
+  margin: 25px 0;
+  padding: 15px 0;
+  text-align: right;
+  border-top: 1px solid #a1a1a1;
+}
+
+button,
+.btn {
+  display: inline-block;
+  padding: 1rem;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #ccc;
+
+  &.small {
+    padding: .5rem;
+    font-size: .8rem;
+  }
+}
+
+button,
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn-link {
+  padding: 1rem;
+}
+
+button.primary {
+  color: #fff;
+  border: 1px solid blue;
+  background-color: blue;
+}
+
+input,
+table {
+  border: 1px solid #a1a1a1;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table th:first-child {
+  width: 20%;
+}
+
+.btn:focus,
+input:focus {
+  border-color: transparent;
+  outline: none;
+  box-shadow: 0 0 0 2px blue;
+}
+
+table {
+  margin-bottom: 15px;
+  border: 1px solid blue;
+}
+
+table th,
+table td {
+  padding: 1rem;
+  text-align: left;
+}
+
+table th:first-child,
+table td:first-child {
+  padding: 1rem;
+}
+
+table td {
+  border: 1px solid #a1a1a1;
+}
+
+table a {
+  text-decoration: none;
+}
+
+table td > a {
+  display: block;
+  margin: -1rem;
+  padding: 1rem;
+}
+
+img.hoodie-camp {
+  max-width: 100%;
+}
+
+img.low-profile-dog {
+  float: right;
+  width: 120px;
+  height: 160px;
+}
