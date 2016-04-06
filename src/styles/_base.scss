@@ -1,11 +1,13 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,700);
+
 * {
   box-sizing: border-box;;
-
 }
 
 html {
-  font: 14px/1.3 Helvetica, sans-serif;
-  color: #222}
+  font: normal 300 14px/1.3 'Open Sans', Helvetica, sans-serif;
+  color: #000;
+}
 
 body {
   max-width: 600px;
@@ -13,36 +15,45 @@ body {
   padding: 0 1rem;
 }
 
-a,
-a:active,
-a:visited {
-  text-decoration: none;
-  color: blue;
-}
-
-p {
-  margin-top: 0;
-}
-
-label {
-  margin-bottom: 8px;
-}
-
-button,
-input {
-  margin: 0;
-  font: inherit;
-  color: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 ul,
 li {
   margin: 0;
   padding: 0;
+}
+
+h1,
+h2,
+b,
+strong {
+  font-weight: 700;
+}
+
+a {
+  &,
+  &:active,
+  &:visited {
+    text-decoration: none;
+    color: $lightColor;
+  }
+
+  &:hover,
+  &.active {
+    color: $accentColor;
+  }
+}
+
+p {
+  margin: 1rem 0;
+}
+
+ul,
+li {
   list-style-type: none;
 }
 

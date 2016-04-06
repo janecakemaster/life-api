@@ -1,0 +1,36 @@
+$border: 1px solid $lightColor;
+
+table {
+  width: 100%;
+  margin: 1rem;
+  border-collapse: collapse;
+  border: $border;
+}
+
+th:first-child {
+  width: 20%;
+}
+
+th,
+td {
+  padding: 1rem;
+  text-align: left;
+}
+
+td {
+  border-right: $border;
+
+  &:last-child {
+    border: 0;
+  }
+
+  .placeholder & {
+    text-align: center;
+  }
+}
+
+td > a {
+  display: block;
+  margin: -1rem;
+  padding: 1rem;
+}

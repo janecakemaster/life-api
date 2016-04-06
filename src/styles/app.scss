@@ -1,20 +1,10 @@
+@import 'variables';
+
 @import 'base';
-@import 'states';
-@import 'layout';
 @import 'header';
 @import 'components';
 
+@import 'states';
+
 @import 'index';
 @import 'account';
-
-.input-type {
-  ul,
-  li {
-    list-style: none;
-  }
-
-  ul {
-    display: flex;
-    justify-content: space-around
-  }
-}

@@ -1,158 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tracker | Account</title>
-    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/app.css">
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>life-api | account</title>
+  <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/app.css">
+</head>
 
-  <body class="account-page" data-account-state="">
-    <header>
-      <h1><a href="/">life-api</a></h1>
-      <nav>
-        <ul>
-          <li>
-            <a href="account.html" class="active">
-              <span data-hide-if="signed-in">login/sign up</span>
-              <span data-hide-if="signed-out" data-value="username"></span>
-            </a>
-          </li>
-          <li><a href="about.html">about</a></li>
-          <li><a href="example.html">example</a></li>
-        </ul>
-      </nav>
-    </header>
+<body class="account-page" data-account-state="">
+  <header>
+    <h1><a href="/">life-api</a></h1>
+    <nav>
+      <ul>
+        <li>
+          <a href="account.html" class="active">
+            <span data-hide-if="signed-in">login/sign up</span>
+            <span data-hide-if="signed-out" data-value="username"></span>
+          </a>
+        </li>
+        <li><a href="about.html">about</a></li>
+        <li><a href="new-input.html">add new input</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main>
-      <a href="/">
-        <span aria-hidden="true">←</span>
-        Return to the tracker
-      </a>
+  <main>
+    <a href="/">
+      <span aria-hidden="true">←</span>
+      Return to the tracker
+    </a>
 
-      <div data-show="signin" data-hide-if="signed-in">
-        <form class="signup" action="signup">
-          <h2>Sign up</h2>
+    <div data-show="signin" data-hide-if="signed-in">
+      <form class="signup" action="signup">
+        <h2>Sign up</h2>
 
+        <p>
+          <label for="input-signup-email">Email</label>
+          <input id="input-signup-email" name="email" type="email" required>
+        </p>
+
+        <p>
+          <label for="input-signup-password">Password</label>
+          <input id="input-signup-password" name="password" type="password" required>
+        </p>
+
+        <p>
+          <button type="submit" class="primary btn">Sign up</button>
+          <a href="#" data-action="show-signin">Log in?</a>
+        </p>
+      </form><!-- .signup -->
+
+      <form class="signin" action="signin">
+        <div class="signup-link">
+          <h3>New account?</h3>
+          <a href="#" class="btn" data-action="show-signup">
+            <span class="sr-only">Need an account?</span>
+            Sign up!
+          </a>
+        </div>
+
+        <h2>Log in</h2>
+
+        <p>
+          <label for="input-signin-email">Email</label>
+          <input id="input-signin-email" name="email" type="email" required>
+        </p>
+
+        <p>
+          <label for="input-signin-password">Password</label>
+          <input id="input-signin-password" name="password" type="password" required>
+        </p>
+
+        <p>
+          <button type="submit" class="primary btn">Log in</button>
+          <small>
+            <a href="#" class="btn-link" data-action="show-password-reset">Forgot password?</a>
+          </small>
+        </p>
+      </form><!-- .signin -->
+
+      <form class="password-reset">
+        <h2>Password reset</h2>
+
+        <p>
+          <label for="input-email-reset">Enter your account's email</label>
+          <input id="input-email-reset" name="email" type="email" required>
+        </p>
+
+        <p>
+          <button class="primary" type="submit btn">Send</button>
+          <small>
+            <a href="#" class="btn-link" data-action="show-signin">Cancel</a>
+          </small>
+        </p>
+      </form><!-- .password-reset -->
+    </div>
+
+    <div data-hide-if="signed-out">
+      <h2>Account settings</h2>
+      <div data-show="options">
+        <div class="options">
+          <button class="btn" data-action="show-change-email">Change email</button>
+          <button class="btn" data-action="show-change-password">Change password</button>
+          <button class="btn" data-action="show-delete-account">Delete Account</button>
+        </div><!-- /.options -->
+
+        <form class="change-email">
           <p>
-            <label for="input-signup-email">Email</label>
-            <input id="input-signup-email" name="email" type="email" required>
+            <label for="input-change-email">Change email</label>
+            <input id="input-change-email" name="email" type="email" required>
           </p>
 
           <p>
-            <label for="input-signup-password">Password</label>
-            <input id="input-signup-password" name="password" type="password" required>
-          </p>
-
-          <p>
-            <button type="submit" class="primary">Sign up</button>
-            <a href="#" data-action="show-signin">Log in?</a>
-          </p>
-        </form><!-- .signup -->
-
-        <form class="signin" action="signin">
-          <div class="signup-link">
-            <h3>New account?</h3>
-            <a href="#" class="btn" data-action="show-signup">
-              <span class="sr-only">Need an account?</span>
-              Sign up!
-            </a>
-          </div>
-
-          <h2>Log in</h2>
-
-          <p>
-            <label for="input-signin-email">Email</label>
-            <input id="input-signin-email" name="email" type="email" required>
-          </p>
-
-          <p>
-            <label for="input-signin-password">Password</label>
-            <input id="input-signin-password" name="password" type="password" required>
-          </p>
-
-          <p>
-            <button type="submit" class="primary">Log in</button>
-            <small>
-              <a href="#" class="btn-link" data-action="show-password-reset">Forgot password?</a>
-            </small>
-          </p>
-        </form><!-- .signin -->
-
-        <form class="password-reset">
-          <h2>Password reset</h2>
-
-          <p>
-            <label for="input-email-reset">Enter your account's email</label>
-            <input id="input-email-reset" name="email" type="email" required>
-          </p>
-
-          <p>
-            <button class="primary" type="submit">Send</button>
-            <small>
-              <a href="#" class="btn-link" data-action="show-signin">Cancel</a>
-            </small>
-          </p>
-        </form><!-- .password-reset -->
-      </div>
-
-      <div data-hide-if="signed-out">
-        <h2>Account settings</h2>
-        <div data-show="options">
-          <div class="options">
-            <button data-action="show-change-email">Change email</button>
-            <button data-action="show-change-password">Change password</button>
-            <button data-action="show-delete-account">Delete Account</button>
-          </div><!-- /.options -->
-
-          <form class="change-email">
-            <p>
-              <label for="input-change-email">Change email</label>
-              <input id="input-change-email" name="email" type="email" required>
-            </p>
-
-            <p>
-              <button class="primary" type="submit">Save</button>
-              <small>
-                <a href="#" class="btn-link" data-action="show-options">Cancel</a>
-              </small>
-            </p>
-          </form><!-- /.change-email -->
-
-          <form class="change-password">
-            <p>
-              <label for="inpute-change-password">Set new password</label>
-              <input id="inpute-change-password" name="password" type="password" required>
-            </p>
-
-            <p>
-              <button class="primary" type="submit">Save</button>
-              <small>
-                <a href="#" class="btn-link" data-action="show-options">Cancel</a>
-              </small>
-            </p>
-          </form><!-- /.change-password -->
-
-          <div class="delete-account">
-            <p>Are you sure you want to delete your account?</p>
-            <button data-action="delete-account" class="primary">Delete account</button>
+            <button class="primary" type="submit">Save</button>
             <small>
               <a href="#" class="btn-link" data-action="show-options">Cancel</a>
             </small>
-          </div><!-- /.delete-account -->
-        </div>
+          </p>
+        </form><!-- /.change-email -->
 
-        <div class="signout-container">
-          <button class="small" data-action="signout">Sign out</button>
-        </div>
+        <form class="change-password">
+          <p>
+            <label for="inpute-change-password">Set new password</label>
+            <input id="inpute-change-password" name="password" type="password" required>
+          </p>
+
+          <p>
+            <button class="primary" type="submit">Save</button>
+            <small>
+              <a href="#" class="btn-link" data-action="show-options">Cancel</a>
+            </small>
+          </p>
+        </form><!-- /.change-password -->
+
+        <div class="delete-account">
+          <p>Are you sure you want to delete your account?</p>
+          <button data-action="delete-account" class="primary">Delete account</button>
+          <small>
+            <a href="#" class="btn-link" data-action="show-options">Cancel</a>
+          </small>
+        </div><!-- /.delete-account -->
       </div>
-    </main>
 
-    <span id="a11y-announcer" class="sr-only" aria-live="polite"></span>
-    <script src="js/a11y-announce.js"></script>
-    <script src="/hoodie/client.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/account.js"></script>
-  </body>
+      <div class="signout">
+        <button class="small" data-action="signout">Sign out</button>
+      </div>
+    </div>
+  </main>
+
+  <span id="a11y-announcer" class="sr-only" aria-live="polite"></span>
+  <script src="js/a11y-announce.js"></script>
+  <script src="/hoodie/client.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/account.js"></script>
+</body>
 </html>

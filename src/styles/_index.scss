@@ -1,75 +1,34 @@
-form.add-item {
-  position: relative;
-  margin-bottom: 25px;
-  padding-bottom: 25px;
-  border-bottom: 1px solid #333;
+@mixin circle($size, $color) {
+  width: $size;
+  height: $size;
+  border: 0;
+  border-radius: 100%;
+  background: $color;
 }
 
-form.add-item:after {
-  display: block;
-  clear: both;
-  content: '';
-}
-
-form.add-item .tracker-amount,
-form.add-item .tracker-item,
-form.add-item .btn {
-  width: 100%;
-}
-
-form.add-item input {
-  margin-bottom: 20px;
-}
-
-form.add-item label {
-  margin-bottom: 8px;
-}
-
-form.add-item button {
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  form.add-item {
-    padding-bottom: 5px;
-  }
-
-  form.add-item .amount {
-    float: left;
-    width: 16%;
-  }
-
-  form.add-item .item {
-    float: left;
-    width: 50%;
-    margin: 0 2%;
-  }
-
-  form.add-item button {
-    float: left;
-    width: 30%;
-    margin-top: 27px;
+.input-type {
+  ul {
+    display: flex;
+    justify-content: space-around;
   }
 }
 
-.items {
-  display: none;
-}
-[data-store-state='empty'] .items,
-[data-store-state='not-empty'] .items {
-  display: block;
+.inputs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.items .placeholder td {
-  text-align: center;
-}
-.items table + button {
-  width: 100%;
+.input {
+  width: 20%;
 }
 
-@media (min-width: 768px) {
-  .items table + button {
-    float: right;
-    width: auto;
+button {
+  .input-time & {
+    @include circle(100px, $inputColor1);
+  }
+
+  .input-completed & {
+    @include circle(100px, $inputColor2);
   }
 }

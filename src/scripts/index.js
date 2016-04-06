@@ -1,6 +1,7 @@
-/* global hoodie */
+/* globals hoodie */
 
-const $itemsList = document.querySelector('.items .list')
+const $log = document.querySelector('.log')
+const $inputs = document.querySelector('.inputs')
 const $clearButton = document.querySelector('[data-action="clear"]')
 
 /*
@@ -8,7 +9,10 @@ const $clearButton = document.querySelector('[data-action="clear"]')
  * This means each time the page loads we need to find any previous notes that we have stored.
  */
 function loadAndRenderItems () {
-  hoodie.store.findAll().then(render)
+  hoodie.store.findAll((item) => item.type.startsWith('input-'))
+    .then(renderInputs)
+
+  hoodie.store.findAll((item) => item.type.startsWith('log-')).then(renderLog)
 }
 
 /* render items initially on page load */
@@ -29,7 +33,7 @@ hoodie.store.on('change', loadAndRenderItems)
  * then check if one of the buttons was clicked.
  * See: https://davidwalsh.name/event-delegate
  */
-$itemsList.addEventListener('click', (e) => {
+$log.addEventListener('click', (e) => {
   e.preventDefault()
 
   const action = e.target.dataset.action
@@ -39,88 +43,71 @@ $itemsList.addEventListener('click', (e) => {
 
   const row = e.target.parentNode.parentNode
   const id = row.dataset.id
-  let amount = row.firstChild.textContent
-  let note = row.firstChild.nextSibling.textContent
 
   switch (action) {
-    case 'cancel':
-      loadAndRenderItems()
-      break
     case 'remove':
-      hoodie.store.remove({
-        id: id
-      })
+      hoodie.store.remove({id})
       break
-    case 'update':
-      amount = row.querySelector('input[name=amount]').value
-      note = row.querySelector('input[name=note]').value
-      hoodie.store.update(id, {
-        amount: amount,
-        note: note
-      })
   }
 })
 
-;[].forEach.call(document.querySelectorAll('[data-log-type]'), (el) => {
-  const event = el.nodeName === 'BUTTON' ? 'click' : 'input'
-
-  el.addEventListener(event, (e) => {
-    switch (e.target.getAttribute('data-log-type')) {
-      case 'time':
-        logTime(e.target)
-        break
-      case 'scale':
-        logScale(e.target)
-        break
-      case 'completed':
-        logCompleted(e.target)
-        break
-      default:
-        console.log(e.target.attributes)
-    }
-  })
+$inputs.addEventListener('click', (e) => {
+  switch (e.target.getAttribute('data-input-type')) {
+    case 'time':
+      logTime(e.target)
+      break
+    case 'scale':
+      logScale(e.target)
+      break
+    case 'completed':
+      logCompleted(e.target)
+      break
+    default:
+      console.log(e.target.attributes)
+  }
 })
 
 function logTime (elem) {
   hoodie.store.add({
-    type: elem.getAttribute('data-type'),
+    type: `log-${elem.getAttribute('data-type')}`,
+    inputType: 'input-time',
     name: elem.textContent,
     time: new Date(),
-    logType: 'time'
   })
 }
 
 function logScale (elem) {
-  const id = document.querySelector('[data-log-type="scale"]').id
-  const name = document.querySelector(`[for="${id}"]`).textContent
+  const inputID = document.querySelector('[data-input-type="scale"]').id
+  const type = `log-${elem.getAttribute('data-type')}`
+  const name = document.querySelector(`[for="${inputID}"]`).textContent
 
   hoodie.store.updateOrAdd({
-    type: elem.getAttribute('data-type'),
-    id: `${elem.getAttribute('data-type')}${new Date().toJSON().slice(0, 10)}`,
+    id: `${type}${new Date().toJSON().slice(0, 10)}`,
+    type,
+    inputType: 'input-scale',
     name: name,
     level: elem.value,
-    logType: 'scale'
   })
 }
 
 function logCompleted (elem) {
   hoodie.store.updateOrAdd({
-    type: elem.getAttribute('data-type'),
     id: `${elem.getAttribute('data-type')}`,
+    type: `log-${elem.getAttribute('data-type')}`,
+    inputType: 'input-completed',
     name: elem.textContent,
     completed: true,
-    logType: 'completed'
   })
 }
 
-function render (items) {
+function renderLog (items) {
   if (items.length === 0) {
-    document.body.dataset.storeState = 'empty'
+    document.body.dataset.logState = 'empty'
     return
   }
 
-  document.body.dataset.storeState = 'not-empty'
-  $itemsList.innerHTML = items
+  document.body.dataset.logState = 'not-empty'
+  $log.innerHTML = items
     .sort(orderByCreatedAt)
     .map((item) => {
       const exclude = ['id', 'createdAt', 'updatedAt', '_rev', 'type']
@@ -135,6 +122,39 @@ function render (items) {
       }
 
       result += '<td><a href="#" data-action="remove">Delete</a></td></tr>'
+
+      return result
+    }).join('')
+}
+
+function renderInputs (items) {
+  if (items.length === 0) {
+    document.body.dataset.inputsState = 'empty'
+    return
+  }
+
+  document.body.dataset.inputsState = 'not-empty'
+  $inputs.innerHTML = items
+    .sort(orderByCreatedAt)
+    .map((item) => {
+      let result = `<div class="input ${item.type}">`
+
+      switch (item.type.replace('input-', '')) {
+        case 'completed':
+          result += `<button data-type="${item.name}" data-input-type="completed">${item.displayName}</button>`
+          break
+        case 'time':
+          result += `<button data-type="${item.name}" data-input-type="time">${item.displayName}</button>`
+          break
+        case 'scale':
+          result += `
+          <label for="${item.name}">${item.displayName}</label>
+          <input data-type="${item.name}" id="${item.name}" data-input-type="scale" type="range" min="0" max="10">
+          `
+          break
+      }
+
+      result += '</div>'
 
       return result
     }).join('')

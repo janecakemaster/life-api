@@ -7,9 +7,9 @@
   <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="css/app.css">
 </head>
-<body data-account-state="" data-store-state="">
+<body data-account-state="" data-log-state="" data-inputs-state="">
   <header>
-    <h1><a href="/">life-api</a></h1>
+    <h1><a href="/" class="active">life-api</a></h1>
     <nav>
       <ul>
         <li>
@@ -19,30 +19,34 @@
           </a>
         </li>
         <li><a href="about.html">about</a></li>
-        <li><a href="example.html">example</a></li>
+        <li><a href="new-input.html">add new input</a></li>
       </ul>
     </nav>
   </header>
+
   <main>
-    <button data-type="adderall" data-log-type="time">Adderall</button>
-    <button data-type="meditate" data-log-type="completed">Meditated</button>
-    <label for="arm-pain">Arm pain level</label>
-    <input data-type="arm-pain" id="arm-pain" data-log-type="scale" type="range" min="0" max="10">
-    <div class="items" data-num="0">
+    <section class="items">
+      <div class="inputs" data-hide-if="inputs-empty">
+      </div>
+    </section>
+
+    <section class="items" data-num="0">
       <table>
-        <tbody class="placeholder" data-hide-if="store-not-empty">
+        <tbody class="placeholder" data-hide-if="log-not-empty">
           <tr>
             <td colspan="5">
               no data yet
             </td>
           </tr>
         </tbody>
-        <tbody class="list" data-hide-if="store-empty">
+        <tbody class="log" data-hide-if="log-empty">
         </tbody>
       </table>
-      <button data-action="clear" data-hide-if="store-empty">Clear tracked items</button>
-    </div>
+
+      <button class="btn" data-action="clear" data-hide-if="log-empty">Clear tracked items</button>
+    </section>
   </main>
+
   <script src="/hoodie/client.js"></script>
   <script src="js/common.js"></script>
   <script src="js/index.js"></script>

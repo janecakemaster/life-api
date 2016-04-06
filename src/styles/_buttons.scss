@@ -1,0 +1,34 @@
+button {
+  cursor: pointer;
+}
+
+.btn {
+  margin: 1rem;
+  padding: 1rem;
+  color: inherit;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: white;
+
+  &.small {
+    padding: .5rem;
+    font-size: .8rem;
+  }
+
+  &.primary {
+    color: #fff;
+    border: 1px solid blue;
+    background: blue;
+  }
+}
+
+.btn-link {
+  padding: 1rem;
+}
+
+.signout {
+  margin: 25px 0;
+  padding: 15px 0;
+  text-align: right;
+  border-top: 1px solid #a1a1a1;
+}
