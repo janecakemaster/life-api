@@ -82,11 +82,9 @@ function handleForm (e) {
     name,
     displayName,
     noteEnabled,
-  })
-    .then((obj) => {
-      $form.reset()
-    })
-    .catch(handleError)
+  }).then((obj) => {
+    $form.reset()
+  }).catch(handleError)
 }
 
 function orderByName (item1, item2) {
