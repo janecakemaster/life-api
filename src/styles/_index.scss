@@ -9,14 +9,14 @@
 .input-type {
   ul {
     display: flex;
-    justify-content: space-around;
+    justify-content: sace-around;
   }
 }
 
 .inputs {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .input {
@@ -34,11 +34,12 @@
 }
 
 .input-completed button {
-  @include circle(100px, #fff);
+  width: 100px;
+  height: 100px;
   border: 2px solid $inputColor1;
 
   &.on {
-    @include circle(100px, $inputColor1);
+    background: $inputColor1;
   }
 }
 
