@@ -5,41 +5,20 @@ const $inputs = document.querySelector('.inputs')
 const $clearButton = document.querySelector('[data-action="clear"]')
 
 loadAndRenderItems()
+
 hoodie.store.on('change', loadAndRenderItems)
 $clearButton.addEventListener('click', () => hoodie.store.removeAll())
 $log.addEventListener('click', handleLogClick)
 $inputs.addEventListener('click', handleInputsClick)
 
-function handleLogClick (e) {
-  e.preventDefault()
+function loadAndRenderItems () {
+  hoodie.store.findAll((item) => item.type.startsWith('input-'))
+    .then(renderInputs)
+    .catch(handleError)
 
-  const action = e.target.dataset.action
-  if (!action) {
-    return
-  }
-
-  const row = e.target.parentNode.parentNode
-  const id = row.dataset.id
-
-  switch (action) {
-    case 'remove':
-      hoodie.store.remove({id})
-      break
-  }
-}
-
-function handleInputsClick (e) {
-  switch (e.target.getAttribute('data-input-type')) {
-    case 'time':
-      logTime(e.target)
-      break
-    case 'scale':
-      logScale(e.target)
-      break
-    case 'completed':
-      logCompleted(e.target)
-      break
-  }
+  hoodie.store.findAll((item) => item.type.startsWith('log-'))
+    .then(renderLog)
+    .catch(handleError)
 }
 
 function renderLog (items) {
@@ -52,7 +31,7 @@ function renderLog (items) {
   $log.innerHTML = items
     .sort(orderByCreatedAt)
     .map((item) => {
-      const exclude = ['id', 'createdAt', 'updatedAt', '_rev', 'type']
+      const exclude = ['createdAt', 'updatedAt', '_rev', 'type']
       const date = new Date(item.updatedAt)
       let result = `<tr data-id="${item.id}">
       <td class="updatedAt">${date}</td>`
@@ -90,7 +69,7 @@ function renderInputs (items) {
               }
             })
             .catch((err) => {
-              catchError(err)
+              handleError(err)
               document.querySelector(`[data-type="${item.name}"]`).classList.remove('on')
             })
           result += `<button data-type="${item.name}" data-input-type="completed">${item.displayName}</button>`
@@ -112,14 +91,36 @@ function renderInputs (items) {
     }).join('')
 }
 
-function loadAndRenderItems () {
-  hoodie.store.findAll((item) => item.type.startsWith('input-'))
-    .then(renderInputs)
-    .catch(catchError)
+function handleLogClick (e) {
+  e.preventDefault()
 
-  hoodie.store.findAll((item) => item.type.startsWith('log-'))
-    .then(renderLog)
-    .catch(catchError)
+  const action = e.target.dataset.action
+  if (!action) {
+    return
+  }
+
+  const row = e.target.parentNode.parentNode
+  const id = row.dataset.id
+
+  switch (action) {
+    case 'remove':
+      hoodie.store.remove({id})
+      break
+  }
+}
+
+function handleInputsClick (e) {
+  switch (e.target.getAttribute('data-input-type')) {
+    case 'time':
+      logTime(e.target)
+      break
+    case 'scale':
+      logScale(e.target)
+      break
+    case 'completed':
+      logCompleted(e.target)
+      break
+  }
 }
 
 function logTime (elem) {
@@ -163,7 +164,7 @@ function getToday () {
   return new Date().toJSON().slice(0, 10)
 }
 
-function catchError (err) {
+function handleError (err) {
   if (err.status !== 404) {
     console.info(err)
   }
