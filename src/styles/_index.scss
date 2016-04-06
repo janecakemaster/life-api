@@ -22,18 +22,28 @@
 .input {
   margin: 1rem .5rem;
   text-align: center;
+
+  label,
+  button {
+    font-size: 1.1rem;
+  }
 }
 
 .input-time button {
-  @include circle(100px, $inputColor1);
-}
-
-.input-completed button {
   @include circle(100px, $inputColor2);
 }
 
+.input-completed button {
+  @include circle(100px, #fff);
+  border: 2px solid $inputColor1;
+
+  &.on {
+    @include circle(100px, $inputColor1);
+  }
+}
+
 .input-scale {
-  min-width: 300px;
   width: 100%;
+  min-width: 300px;
   padding: 0 3rem;
 }

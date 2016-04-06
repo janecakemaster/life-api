@@ -1,8 +1,10 @@
 button {
+  font-family: inherit;
   cursor: pointer;
+  color: inherit;
   border: 1px solid $lightestColor;
 
-  &:hover, 
+  &:hover,
   &:focus {
     border: 1px solid $lightColor;
   }

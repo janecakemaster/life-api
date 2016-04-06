@@ -13,6 +13,12 @@ $form.addEventListener('submit', (e) => {
   const type = `input-${e.target.querySelector(':checked').value}`
   const noteEnabled = e.target.querySelector('#note-enabled').checked
 
+  function catchError (err) {
+    if (err.status !== 404) {
+      console.info(err)
+    }
+  }
+
   hoodie.store.updateOrAdd({
     id,
     type,
@@ -20,6 +26,10 @@ $form.addEventListener('submit', (e) => {
     displayName,
     noteEnabled,
   })
+    .then((obj) => {
+      $form.reset()
+    })
+    .catch(catchError)
 })
 
 function loadAndRenderItems () {

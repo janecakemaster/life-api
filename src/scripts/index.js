@@ -4,6 +4,16 @@ const $log = document.querySelector('.log')
 const $inputs = document.querySelector('.inputs')
 const $clearButton = document.querySelector('[data-action="clear"]')
 
+function getToday () {
+  return new Date().toJSON().slice(0, 10)
+}
+
+function catchError (err) {
+  if (err.status !== 404) {
+    console.info(err)
+  }
+}
+
 /*
  * With hoodie we're storing our data locally and it will stick around next time you reload.
  * This means each time the page loads we need to find any previous notes that we have stored.
@@ -11,8 +21,11 @@ const $clearButton = document.querySelector('[data-action="clear"]')
 function loadAndRenderItems () {
   hoodie.store.findAll((item) => item.type.startsWith('input-'))
     .then(renderInputs)
+    .catch(catchError)
 
-  hoodie.store.findAll((item) => item.type.startsWith('log-')).then(renderLog)
+  hoodie.store.findAll((item) => item.type.startsWith('log-'))
+    .then(renderLog)
+    .catch(catchError)
 }
 
 /* render items initially on page load */
@@ -80,7 +93,7 @@ function logScale (elem) {
   const name = document.querySelector(`[for="${inputID}"]`).textContent
 
   hoodie.store.updateOrAdd({
-    id: `${type}${new Date().toJSON().slice(0, 10)}`,
+    id: `${type}${getToday()}`,
     type,
     inputType: 'input-scale',
     name: name,
@@ -90,7 +103,7 @@ function logScale (elem) {
 
 function logCompleted (elem) {
   hoodie.store.updateOrAdd({
-    id: `${elem.getAttribute('data-type')}`,
+    id: `${elem.getAttribute('data-type')}${getToday()}`,
     type: `log-${elem.getAttribute('data-type')}`,
     inputType: 'input-completed',
     name: elem.textContent,
@@ -139,6 +152,16 @@ function renderInputs (items) {
 
       switch (item.type.replace('input-', '')) {
         case 'completed':
+          hoodie.store.find(`${item.name}${getToday()}`)
+            .then((obj) => {
+              if (obj.completed === true) {
+                document.querySelector(`[data-type="${item.name}"]`).classList.add('on')
+              }
+            })
+            .catch((err) => {
+              catchError(err)
+              document.querySelector(`[data-type="${item.name}"]`).classList.remove('on')
+            })
           result += `<button data-type="${item.name}" data-input-type="completed">${item.displayName}</button>`
           break
         case 'time':
