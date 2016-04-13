@@ -7,7 +7,7 @@
   <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="css/app.css">
 </head>
-<body data-account-state="" data-log-state="" data-inputs-state="">
+<body data-account-state="">
   <header>
     <h1><a href="/" class="active">life-api</a></h1>
     <nav>
@@ -21,35 +21,19 @@
         <li><a href="about.html">about</a></li>
         <li><a href="new-input.html">add new input</a></li>
         <li><a href="completed.html">completed</a></li>
+        <li><a href="template.html" class="active">template</a></li>
       </ul>
     </nav>
   </header>
-
   <main>
-    <section class="items">
-      <div class="inputs" data-hide-if="inputs-empty">
-      </div>
-    </section>
-
-    <section class="items" data-num="0">
-      <table>
-        <tbody class="placeholder" data-hide-if="log-not-empty">
-          <tr>
-            <td>
-              no data yet
-            </td>
-          </tr>
-        </tbody>
-        <tbody class="log" data-hide-if="log-empty">
-        </tbody>
-      </table>
-
-      <button class="btn" data-action="clear" data-hide-if="log-empty">Clear tracked items</button>
+    <h2 class="date"></h2>
+    <section class="results">
+      <ul class="list success"></ul>
+      <ul class="list fail"></ul>
     </section>
   </main>
-
   <script src="/hoodie/client.js"></script>
   <script src="js/common.js"></script>
-  <script src="js/index.js"></script>
+  <script src="js/template.js"></script>
 </body>
 </html>

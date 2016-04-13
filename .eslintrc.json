@@ -3,8 +3,5 @@
     "extends": "standard",
     "env": {
         "es6": true
-    },
-    "rules": {
-        "comma-dangle": [2, "always-multiline"]
     }
 }

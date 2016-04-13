@@ -13,3 +13,8 @@ const announce = function (message, tone) {
 }
 
 window.announce = announce
+
+const x = {
+  foo() {},
+  bar() {}
+}
