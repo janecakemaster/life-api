@@ -1,8 +1,6 @@
 # life-api
 
-> A Hoodie app
-
-life-api is a simple Hoodie app...
+life-api is a simple Hoodie app... @todo
 
 ## Setup
 
