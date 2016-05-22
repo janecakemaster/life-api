@@ -1,10 +1,7 @@
 .DS_Store
-.hoodie
-.hoodierc
-*.log
+**/*.log
 node_modules
 data
-public/css
-public/js
+public/assets
 *.sublime*
 couchdb*

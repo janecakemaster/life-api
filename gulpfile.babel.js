@@ -9,11 +9,10 @@ import clean from 'gulp-clean'
 import livereload from 'gulp-livereload'
 
 const dirs = {
-  dest: 'public/',
+  dest: 'public/assets/',
   src: 'src/',
   styles: 'src/styles/',
   scripts: 'src/scripts/',
-  build: ['public/css', 'public/js']
 }
 
 gulp.task('styles', () => {
@@ -21,7 +20,7 @@ gulp.task('styles', () => {
     .pipe(sourcemaps.init())
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(`${dirs.dest}/css`))
+    .pipe(gulp.dest(dirs.dest))
 })
 
 gulp.task('scripts', () => {
@@ -30,12 +29,7 @@ gulp.task('scripts', () => {
     .pipe(babel({
       presets: ['es2015'],
     }))
-    .pipe(gulp.dest(`${dirs.dest}/js`))
-})
-
-gulp.task('clean', () => {
-  return gulp.src(dirs.build)
-    .pipe(clean())
+    .pipe(gulp.dest(dirs.dest))
 })
 
 gulp.task('reload', ['styles', 'scripts'], () => {
@@ -46,7 +40,7 @@ gulp.task('watch', () => {
   livereload.listen()
   gulp.watch(`${dirs.styles}**/*.scss`, ['styles'])
   gulp.watch(`${dirs.scripts}**/*.js`, ['scripts'])
-  gulp.watch(`${dirs.dest}**/*`, ['reload'])
+  gulp.watch('public/**/*', ['reload'])
 })
 
 gulp.task('build', ['styles', 'scripts'])

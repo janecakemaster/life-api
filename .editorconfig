@@ -1,4 +1,5 @@
 # EditorConfig is awesome: http://EditorConfig.org
+root = true
 
 # Unix-style newlines with a newline ending every file
 [*]
@@ -7,3 +8,6 @@ insert_final_newline = true
 charset = utf-8
 indent_style = space
 indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false

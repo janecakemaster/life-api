@@ -3,8 +3,6 @@
 @import 'tables';
 
 .items {
-  display: none;
-
   & table + button {
     width: 100%;
   }
