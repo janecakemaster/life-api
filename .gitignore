@@ -7,3 +7,4 @@ data
 public/css
 public/js
 *.sublime*
+couchdb*
