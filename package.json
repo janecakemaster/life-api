@@ -18,15 +18,24 @@
   "scripts": {
     "pretest": "standard test/**/*.js",
     "test": "tape test/*.js",
-    "start": "gulp build && node server.js",
-    "watch": "nodemon server.js -w 'lib' -w 'server.js'",
+    "start": "gulp build && node app.js",
+    "watch": "NODE_ENV=demo nodemon app.js -w 'lib' -w 'app.js' -w 'routes'",
     "build": "gulp build"
   },
   "dependencies": {
+    "config": "^1.20.3",
+    "docuri": "^4.2.1",
+    "glue": "^3.2.1",
     "hapi": "^13.4.1",
+    "hapi-router": "^3.5.0",
     "hoodie": "^21.0.1",
     "inert": "^4.0.0",
+    "install": "^0.8.1",
+    "lout": "^9.0.0",
+    "moment": "^2.13.0",
     "pouchdb": "^5.3.2",
+    "pouchdb-collate": "^1.2.0",
+    "vision": "^4.1.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {
