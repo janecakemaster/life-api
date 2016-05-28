@@ -5,3 +5,4 @@ data
 public/assets
 *.sublime*
 couchdb*
+notes.md
