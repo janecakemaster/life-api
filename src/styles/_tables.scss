@@ -16,12 +16,14 @@ td {
   padding: .5rem;
 }
 
+tr {
+  &:hover {
+    background: $lightestColor;
+  }
+}
+
 td {
   border: 1px solid transparent;
-
-  &:hover {
-    border: 1px solid $lightestColor;
-  }
 
   .placeholder & {
     text-align: center;
