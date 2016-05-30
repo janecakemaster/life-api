@@ -12,12 +12,6 @@
     <h1><a href="/" class="active">life-api</a></h1>
     <nav>
       <ul>
-        <li>
-          <a href="account.html">
-            <span data-hide-if="signed-in">login/sign up</span>
-            <span data-hide-if="signed-out" data-value="username"></span>
-          </a>
-        </li>
         <li><a href="about.html">about</a></li>
         <li><a href="new-input.html">add new input</a></li>
         <li><a href="completed.html">completed</a></li>
@@ -27,20 +21,20 @@
 
   <main>
     <section class="items">
-      <div class="inputs" data-hide-if="inputs-empty">
+      <div class="logs" data-hide-if="logs-empty">
       </div>
     </section>
 
     <section class="items" data-num="0">
       <table>
-        <tbody class="placeholder" data-hide-if="log-not-empty">
+        <tbody class="placeholder" data-hide-if="input-not-empty">
           <tr>
             <td>
               no data yet
             </td>
           </tr>
         </tbody>
-        <tbody class="log" data-hide-if="log-empty">
+        <tbody class="inputs" data-hide-if="input-empty">
         </tbody>
       </table>
 
@@ -48,7 +42,7 @@
     </section>
   </main>
 
-  <script src="//cdn.jsdelivr.net/pouchdb/5.3.2/pouchdb.min.js"></script>
+  <script src="assets/pouchdb.min.js"></script>
   <script src="assets/common.js"></script>
   <script src="assets/index.js"></script>
 </body>

@@ -26,20 +26,20 @@
 // [data-account-state='signed-out'] [data-hide-if='signed-out'] {
 //   display: none;
 // }
-// [data-log-state='empty'] [data-hide-if='log-empty'],
-// [data-log-state='not-empty'] [data-hide-if='log-not-empty'] {
-//   display: none;
-// }
-// [data-log-state='empty'] [data-hide-if='log-empty'],
-// [data-log-state='not-empty'] [data-hide-if='log-not-empty'] {
-//   display: none;
-// }
+[data-log-state='empty'] [data-hide-if='log-empty'],
+[data-log-state='not-empty'] [data-hide-if='log-not-empty'] {
+  display: none;
+}
+[data-input-state='empty'] [data-hide-if='input-empty'],
+[data-input-state='not-empty'] [data-hide-if='input-not-empty'] {
+  display: none;
+}
 
 // [data-store-state='empty'] .items,
 // [data-store-state='not-empty'] .items,
-// [data-log-state='empty'] .items,
-// [data-log-state='not-empty'] .items,
-// [data-input-state='empty'] .items,
-// [data-input-state='not-empty'] .items {
-//   display: block;
-// }
+[data-log-state='empty'] .items,
+[data-log-state='not-empty'] .items,
+[data-input-state='empty'] .items,
+[data-input-state='not-empty'] .items {
+  display: block;
+}

@@ -1,118 +1,100 @@
 /* global PouchDB */
 
-const db = new PouchDB('http://localhost:5984/kittens')
+const $logs = document.querySelector('.logs')
+const $inputs = document.querySelector('.inputs')
+const $clearButton = document.querySelector('[data-action="clear"]')
 
-db.info()
-  .then((data) => {
-    console.log(data)
-  })
-// loadAndRenderItems()
+const _logs = new PouchDB('http://localhost:5984/logs')
+const _inputs = new PouchDB('http://localhost:5984/inputs')
 
-// db.on('change', loadAndRenderItems)
-// $clearButton.addEventListener('click', () => hoodie.store.removeAll())
-// $log.addEventListener('click', handleLogClick)
-// $inputs.addEventListener('click', handleInputsClick)
+const changeOptions = {
+  since: 'now',
+  live: true,
+  include_docs: true
+}
 
-// function loadAndRenderItems () {
-//   hoodie.store.findAll((item) => item.type.startsWith('input-'))
-//     .then(renderInputs)
-//     .catch(handleError)
+loadAndRenderItems()
 
-//   hoodie.store.findAll((item) => item.type.startsWith('log-'))
-//     .then(renderLog)
-//     .catch(handleError)
-// }
+_inputs.changes(changeOptions)
+  .on('change', loadAndRenderItems)
 
-// function renderLog (items) {
-//   if (items.length === 0) {
-//     document.body.dataset.logState = 'empty'
-//     return
-//   }
+_logs.changes(changeOptions)
+  .on('change', loadAndRenderItems)
 
-//   document.body.dataset.logState = 'not-empty'
-//   $log.innerHTML = items
-//     .sort(orderByCreatedAt)
-//     .map((item) => {
-//       const exclude = ['createdAt', 'updatedAt', '_rev', 'type']
-//       const date = new Date(item.updatedAt)
-//       let result = `<tr data-id="${item.id}">
-//       <td class="updatedAt">${date}</td>`
+$clearButton.addEventListener('click', () => removeAll([_inputs]))
+// $logs.addEventListener('click', handleLogsClick)
+$inputs.addEventListener('click', handleInputsClick)
 
-//       for (let key in item) {
-//         if (!exclude.includes(key)) {
-//           result += `<td class="${key}">${item[key]}</td>`
-//         }
-//       }
+function loadAndRenderItems () {
+  _inputs.allDocs({include_docs: true})
+    .then(renderInputs)
+    // .catch(handleError)
 
-//       result += '<td><a href="#" data-action="remove">Delete</a></td></tr>'
+  _logs.allDocs({include_docs: true})
+    .then(renderLogs)
+    // .catch(handleError)
+}
 
-//       return result
-//     }).join('')
-// }
+function renderLogs ({rows}) {
+  if (rows.length === 0) {
+    document.body.dataset.logState = 'empty'
+    return
+  }
 
-// function renderInputs (items) {
-//   if (items.length === 0) {
-//     document.body.dataset.inputsState = 'empty'
-//     return
-//   }
+  document.body.dataset.logState = 'not-empty'
+  $logs.innerHTML = rows
+    .sort(orderByCreatedAt)
+    .map(({doc}) =>
+      `<div class="log"><button data-log-type="${doc.type}">${doc.name}</button></div>`
+    ).join('')
+}
 
-//   document.body.dataset.inputsState = 'not-empty'
-//   $inputs.innerHTML = items
-//     .sort(orderByCreatedAt)
-//     .map((item) => {
-//       let result = `<div class="input ${item.type}">`
+function renderInputs ({rows}) {
+  if (rows.length === 0) {
+    document.body.dataset.inputState = 'empty'
+    return
+  }
 
-//       switch (item.type.replace('input-', '')) {
-//         case 'completed':
-//           hoodie.store.find(`${item.name}${getToday()}`)
-//             .then((obj) => {
-//               if (obj.completed === true) {
-//                 document.querySelector(`[data-type="${item.name}"]`).classList.add('on')
-//               }
-//             })
-//             .catch((err) => {
-//               handleError(err)
-//               document.querySelector(`[data-type="${item.name}"]`).classList.remove('on')
-//             })
-//           result += `<button data-type="${item.name}" data-input-type="completed">${item.displayName}</button>`
-//           break
-//         case 'time':
-//           result += `<button data-type="${item.name}" data-input-type="time">${item.displayName}</button>`
-//           break
-//         case 'scale':
-//           result += `
-//           <label for="${item.name}">${item.displayName}</label>
-//           <input data-type="${item.name}" id="${item.name}" data-input-type="scale" type="range" min="0" max="10">
-//           `
-//           break
-//       }
+  document.body.dataset.inputState = 'not-empty'
+  $inputs.innerHTML = rows
+    .sort(orderByCreatedAt)
+    .map(({doc}) => {
+      const exclude = ['_rev', '_id', 'timestamp', 'logId']
+      let result = `<tr data-id="${doc._id}" data-rev="${doc._rev}" data-log="${doc.log}">`
 
-//       result += '</div>'
+      for (let key in doc) {
+        if (!exclude.includes(key)) {
+          result += `<td class="${key}">${doc[key]}</td>`
+        }
+      }
 
-//       return result
-//     }).join('')
-// }
+      result += '<td><a href="#" data-action="remove">Delete</a></td></tr>'
+
+      return result
+    }).join('')
+}
+
+function handleInputsClick (e) {
+  e.preventDefault()
+
+  const action = e.target.dataset.action
+  if (!action) {
+    return
+  }
+
+  const row = e.target.parentNode.parentNode
+  const id = row.dataset.id
+  const rev = row.dataset.rev
+
+  switch (action) {
+    case 'remove':
+      _inputs.remove(id, rev)
+      break
+  }
+}
 
 // function handleLogClick (e) {
-//   e.preventDefault()
-
-//   const action = e.target.dataset.action
-//   if (!action) {
-//     return
-//   }
-
-//   const row = e.target.parentNode.parentNode
-//   const id = row.dataset.id
-
-//   switch (action) {
-//     case 'remove':
-//       hoodie.store.remove({id})
-//       break
-//   }
-// }
-
-// function handleInputsClick (e) {
-//   switch (e.target.getAttribute('data-input-type')) {
+//   switch (e.target.getAttribute('data-log-type')) {
 //     case 'time':
 //       logTime(e.target)
 //       break
@@ -135,7 +117,7 @@ db.info()
 // }
 
 // function logScale (elem) {
-//   const inputID = document.querySelector('[data-input-type="scale"]').id
+//   const inputID = document.querySelector('[data-log-type="scale"]').id
 //   const type = `log-${elem.getAttribute('data-type')}`
 //   const name = document.querySelector(`[for="${inputID}"]`).textContent
 
@@ -158,9 +140,9 @@ db.info()
 //   })
 // }
 
-// function orderByCreatedAt (item1, item2) {
-//   return item1.createdAt < item2.createdAt ? 1 : -1
-// }
+function orderByCreatedAt (item1, item2) {
+  return item1.createdAt < item2.createdAt ? 1 : -1
+}
 
 // function getToday () {
 //   return new Date().toJSON().slice(0, 10)
@@ -171,3 +153,16 @@ db.info()
 //     console.info(err)
 //   }
 // }
+
+function removeAll (dbs) {
+  dbs.forEach((_db) =>
+    _db.allDocs({include_docs: true})
+    .then(({rows}) =>
+      Promise.all(rows.map(({doc}) =>
+        _db.remove(doc))))
+  )
+}
+
+function getLogName (id) {
+
+}
