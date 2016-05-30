@@ -1,5 +1,5 @@
 /* global PouchDB */
-
+const appUtils = window.appUtils
 const $logs = document.querySelector('.logs')
 const $inputs = document.querySelector('.inputs')
 const $clearButton = document.querySelector('[data-action="clear"]')
@@ -13,29 +13,29 @@ const changeOptions = {
   include_docs: true
 }
 
-loadAndRenderItems()
+loadAndDraw()
 
 _inputs.changes(changeOptions)
-  .on('change', loadAndRenderItems)
+  .on('change', loadAndDraw)
 
 _logs.changes(changeOptions)
-  .on('change', loadAndRenderItems)
+  .on('change', loadAndDraw)
 
 $clearButton.addEventListener('click', () => removeAll([_inputs]))
-// $logs.addEventListener('click', handleLogsClick)
+$logs.addEventListener('click', handleLogsClick)
 $inputs.addEventListener('click', handleInputsClick)
 
-function loadAndRenderItems () {
+function loadAndDraw () {
   _inputs.allDocs({include_docs: true})
-    .then(renderInputs)
+    .then(drawInputs)
     // .catch(handleError)
 
   _logs.allDocs({include_docs: true})
-    .then(renderLogs)
+    .then(drawLogs)
     // .catch(handleError)
 }
 
-function renderLogs ({rows}) {
+function drawLogs ({rows}) {
   if (rows.length === 0) {
     document.body.dataset.logState = 'empty'
     return
@@ -45,11 +45,11 @@ function renderLogs ({rows}) {
   $logs.innerHTML = rows
     .sort(orderByCreatedAt)
     .map(({doc}) =>
-      `<div class="log"><button data-log-type="${doc.type}">${doc.name}</button></div>`
+      `<div class="log"><button data-log-type="${doc.type}" id="${doc._id}">${doc.name}</button></div>`
     ).join('')
 }
 
-function renderInputs ({rows}) {
+function drawInputs ({rows}) {
   if (rows.length === 0) {
     document.body.dataset.inputState = 'empty'
     return
@@ -93,28 +93,27 @@ function handleInputsClick (e) {
   }
 }
 
-// function handleLogClick (e) {
-//   switch (e.target.getAttribute('data-log-type')) {
-//     case 'time':
-//       logTime(e.target)
-//       break
-//     case 'scale':
-//       logScale(e.target)
-//       break
-//     case 'completed':
-//       logCompleted(e.target)
-//       break
-//   }
-// }
+function handleLogsClick (e) {
+  switch (e.target.getAttribute('data-log-type')) {
+    case 'time':
+      timeInput(e.target)
+      break
+  }
+}
 
-// function logTime (elem) {
-//   hoodie.store.add({
-//     type: `log-${elem.getAttribute('data-type')}`,
-//     inputType: 'input-time',
-//     name: elem.textContent,
-//     time: new Date(),
-//   })
-// }
+function timeInput (el) {
+  appUtils.post({
+    action: 'POST',
+    url: '//localhost:8001/inputs/create',
+    data: {
+      type: el.getAttribute('data-log-type'),
+      logId: el.getAttribute('data-log-id'),
+      logName: el.textContent,
+      name: el.textContent,
+      time: new Date()
+    }
+  })
+}
 
 // function logScale (elem) {
 //   const inputID = document.querySelector('[data-log-type="scale"]').id
@@ -161,8 +160,4 @@ function removeAll (dbs) {
       Promise.all(rows.map(({doc}) =>
         _db.remove(doc))))
   )
-}
-
-function getLogName (id) {
-
 }

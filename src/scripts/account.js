@@ -138,7 +138,7 @@
 
 // /**
 //  * handle signout click. This will trigger a "signout" event which is handled
-//  * in common.js
+//  * in utils.js
 //  */
 // document.querySelector('[data-action=signout]').addEventListener('click', function (event) {
 //   event.preventDefault()
@@ -149,7 +149,7 @@
 
 // /**
 //  * handle account destroy click. This will also trigger a "signout" event which
-//  * is handled in common.js
+//  * is handled in utils.js
 //  */
 // document.querySelector('[data-action="delete-account"]').addEventListener('click', function (event) {
 //   event.preventDefault()

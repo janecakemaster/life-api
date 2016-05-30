@@ -12,7 +12,10 @@ const server = new Hapi.Server()
 // api server
 server.connection({
   port: 8001,
-  labels: ['api']
+  labels: ['api'],
+  routes: {
+    cors: true
+  }
 })
 
 const apiServer = server.select('api')
