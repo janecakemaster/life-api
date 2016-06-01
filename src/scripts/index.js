@@ -6,18 +6,21 @@ const $clearButton = document.querySelector('[data-action="clear"]')
 const _logs = new PouchDB('http://localhost:5984/logs')
 const _inputs = new PouchDB('http://localhost:5984/inputs')
 
-const changeOptions = {
+const changeOpts = {
   since: 'now',
-  live: true,
-  include_docs: true
+  live: true
+}
+const allDocsOpts = {
+  include_docs: true,
+  descending: true
 }
 
 loadAndDraw()
 
-_inputs.changes(changeOptions)
+_inputs.changes(changeOpts)
   .on('change', loadAndDraw)
 
-_logs.changes(changeOptions)
+_logs.changes(changeOpts)
   .on('change', loadAndDraw)
 
 $clearButton.addEventListener('click', () => removeAll([_inputs]))
@@ -25,10 +28,10 @@ $logs.addEventListener('click', handleLogsClick)
 $inputs.addEventListener('click', handleInputsClick)
 
 function loadAndDraw () {
-  _inputs.allDocs({include_docs: true})
+  _inputs.allDocs(allDocsOpts)
     .then(drawInputs)
 
-  _logs.allDocs({include_docs: true})
+  _logs.allDocs(allDocsOpts)
     .then(drawLogs)
 }
 
@@ -40,7 +43,6 @@ function drawLogs ({rows}) {
 
   document.body.dataset.logState = 'not-empty'
   $logs.innerHTML = rows
-    .sort(orderByCreatedAt)
     .map(({doc}) =>
       `<div class="log"><button data-log-type="${doc.type}" id="${doc._id}">${doc.name}</button></div>`
     ).join('')
@@ -54,10 +56,9 @@ function drawInputs ({rows}) {
 
   document.body.dataset.inputState = 'not-empty'
   $inputs.innerHTML = rows
-    .sort(orderByCreatedAt)
     .map(({doc}) => {
-      const exclude = ['_rev', '_id', 'timestamp', 'logId']
-      let result = `<tr data-id="${doc._id}" data-rev="${doc._rev}" data-log="${doc.log}">`
+      const exclude = ['_rev', '_id', 'timestamp']
+      let result = `<tr data-id="${doc._id}" data-rev="${doc._rev}">`
 
       for (let key in doc) {
         if (!exclude.includes(key)) {
@@ -101,58 +102,22 @@ function handleLogsClick (e) {
 function timeInput (el) {
   qwest.post('//localhost:8001/inputs/create', {
     type: el.getAttribute('data-log-type'),
-    logId: el.getAttribute('data-log-id'),
-    logName: el.textContent,
-    name: el.textContent,
+    logId: el.id,
     time: new Date()
   }, {
     cache: true
   })
   .then((xhr, response) => {
-    console.log('response', response)
-    // Make some useful actions
+
   })
   .catch((err, xhr, response) => {
-    // Process the error
     console.error('error', err)
   })
 }
 
-// function logScale (elem) {
-//   const inputID = document.querySelector('[data-log-type="scale"]').id
-//   const type = `log-${elem.getAttribute('data-type')}`
-//   const name = document.querySelector(`[for="${inputID}"]`).textContent
-
-//   hoodie.store.updateOrAdd({
-//     id: `${type}${getToday()}`,
-//     type,
-//     inputType: 'input-scale',
-//     name: name,
-//     level: elem.value,
-//   })
-// }
-
-// function logCompleted (elem) {
-//   hoodie.store.updateOrAdd({
-//     id: `${elem.getAttribute('data-type')}${getToday()}`,
-//     type: `log-${elem.getAttribute('data-type')}`,
-//     inputType: 'input-completed',
-//     name: elem.textContent,
-//     completed: true,
-//   })
-// }
-
-function orderByCreatedAt (item1, item2) {
-  return item1.createdAt < item2.createdAt ? 1 : -1
-}
-
-// function getToday () {
-//   return new Date().toJSON().slice(0, 10)
-// }
-
 function removeAll (dbs) {
   dbs.forEach((_db) =>
-    _db.allDocs({include_docs: true})
+    _db.allDocs(allDocsOpts)
     .then(({rows}) =>
       Promise.all(rows.map(({doc}) =>
         _db.remove(doc))))

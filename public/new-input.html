@@ -7,7 +7,7 @@
   <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/app.css">
 </head>
-<body data-store-state="">
+<body>
   <header>
     <h1><a href="/">life-api</a></h1>
     <nav>
@@ -32,7 +32,7 @@
         <ul>
           <li>
             <label for="time">Time</label>
-            <input type="radio" name="logType" id="time" value="time" required>
+            <input type="radio" name="logType" id="time" value="time" required checked>
           </li>
           <li>
             <label for="completed">Completed</label>
@@ -48,11 +48,6 @@
       <fieldset>
         <label for="name">Input name</label>
         <input id="name" name="name" type="text" required>
-      </fieldset>
-
-      <fieldset>
-        <label for="note-enabled">Enable note field</label>
-        <input id="note-enabled" name="note-enabled" type="checkbox">
       </fieldset>
 
       <button class="btn" type="submit">Add New Input</button>
@@ -75,8 +70,6 @@
     </div>
   </main>
 
-
-  <script src="assets/utils.js"></script>
   <script src="assets/new-input.js"></script>
 </body>
 </html>
