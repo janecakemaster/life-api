@@ -1,5 +1,4 @@
-/* global PouchDB */
-const appUtils = window.appUtils
+/* global PouchDB qwest */
 const $logs = document.querySelector('.logs')
 const $inputs = document.querySelector('.inputs')
 const $clearButton = document.querySelector('[data-action="clear"]')
@@ -28,11 +27,9 @@ $inputs.addEventListener('click', handleInputsClick)
 function loadAndDraw () {
   _inputs.allDocs({include_docs: true})
     .then(drawInputs)
-    // .catch(handleError)
 
   _logs.allDocs({include_docs: true})
     .then(drawLogs)
-    // .catch(handleError)
 }
 
 function drawLogs ({rows}) {
@@ -102,16 +99,22 @@ function handleLogsClick (e) {
 }
 
 function timeInput (el) {
-  appUtils.post({
-    action: 'POST',
-    url: '//localhost:8001/inputs/create',
-    data: {
-      type: el.getAttribute('data-log-type'),
-      logId: el.getAttribute('data-log-id'),
-      logName: el.textContent,
-      name: el.textContent,
-      time: new Date()
-    }
+  qwest.post('//localhost:8001/inputs/create', {
+    type: el.getAttribute('data-log-type'),
+    logId: el.getAttribute('data-log-id'),
+    logName: el.textContent,
+    name: el.textContent,
+    time: new Date()
+  }, {
+    cache: true
+  })
+  .then((xhr, response) => {
+    console.log('response', response)
+    // Make some useful actions
+  })
+  .catch((err, xhr, response) => {
+    // Process the error
+    console.error('error', err)
   })
 }
 
@@ -145,12 +148,6 @@ function orderByCreatedAt (item1, item2) {
 
 // function getToday () {
 //   return new Date().toJSON().slice(0, 10)
-// }
-
-// function handleError (err) {
-//   if (err.status !== 404) {
-//     console.info(err)
-//   }
 // }
 
 function removeAll (dbs) {
