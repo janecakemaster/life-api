@@ -37,6 +37,7 @@ function loadAndDraw () {
 
 function drawLogs ({rows}) {
   if (rows.length === 0) {
+    $logs.innerHTML = ''
     return
   }
 
@@ -48,6 +49,7 @@ function drawLogs ({rows}) {
 
 function drawInputs ({rows}) {
   if (rows.length === 0) {
+    $inputs.innerHTML = ''
     return
   }
 

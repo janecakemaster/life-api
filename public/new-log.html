@@ -12,12 +12,6 @@
     <h1><a href="/">life-api</a></h1>
     <nav>
       <ul>
-        <li>
-          <a href="account.html">
-            <span data-hide-if="signed-in">login/sign up</span>
-            <span data-hide-if="signed-out" data-value="username"></span>
-          </a>
-        </li>
         <li><a href="about.html">about</a></li>
         <li><a href="new-log.html" class="active">add new log</a></li>
         <li><a href="completed.html">completed</a></li>
@@ -55,15 +49,16 @@
 
     <div class="items" data-num="0">
       <table>
-        <tbody class="list" data-hide-if="store-empty">
+        <tbody class="list">
         </tbody>
       </table>
 
-      <button data-action="clear" data-hide-if="store-empty">Clear tracked items</button>
+      <button data-action="clear">Clear tracked items</button>
     </div>
   </main>
 
   <script src="assets/pouchdb.min.js"></script>
+  <script src="assets/qwest.min.js"></script>
   <script src="assets/new-log.js"></script>
 </body>
 </html>
