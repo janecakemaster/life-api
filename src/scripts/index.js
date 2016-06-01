@@ -37,11 +37,9 @@ function loadAndDraw () {
 
 function drawLogs ({rows}) {
   if (rows.length === 0) {
-    document.body.dataset.logState = 'empty'
     return
   }
 
-  document.body.dataset.logState = 'not-empty'
   $logs.innerHTML = rows
     .map(({doc}) =>
       `<div class="log"><button data-log-type="${doc.type}" id="${doc._id}">${doc.name}</button></div>`
@@ -50,11 +48,9 @@ function drawLogs ({rows}) {
 
 function drawInputs ({rows}) {
   if (rows.length === 0) {
-    document.body.dataset.inputState = 'empty'
     return
   }
 
-  document.body.dataset.inputState = 'not-empty'
   $inputs.innerHTML = rows
     .map(({doc}) => {
       const exclude = ['_rev', '_id', 'timestamp']

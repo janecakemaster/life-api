@@ -7,6 +7,7 @@
     "node": true
   },
   "rules": {
-    "camelcase": 0
+    "camelcase": 0,
+    "no-multiple-empty-lines": 0
   }
 }

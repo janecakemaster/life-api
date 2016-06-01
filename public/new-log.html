@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>life-api | new input</title>
+  <title>life-api | new log</title>
   <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/app.css">
 </head>
@@ -19,7 +19,7 @@
           </a>
         </li>
         <li><a href="about.html">about</a></li>
-        <li><a href="new-input.html" class="active">add new input</a></li>
+        <li><a href="new-log.html" class="active">add new log</a></li>
         <li><a href="completed.html">completed</a></li>
       </ul>
     </nav>
@@ -55,13 +55,6 @@
 
     <div class="items" data-num="0">
       <table>
-        <tbody class="placeholder" data-hide-if="store-not-empty">
-          <tr>
-            <td>
-              no data yet
-            </td>
-          </tr>
-        </tbody>
         <tbody class="list" data-hide-if="store-empty">
         </tbody>
       </table>
@@ -70,6 +63,7 @@
     </div>
   </main>
 
-  <script src="assets/new-input.js"></script>
+  <script src="assets/pouchdb.min.js"></script>
+  <script src="assets/new-log.js"></script>
 </body>
 </html>

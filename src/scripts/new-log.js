@@ -1,12 +1,64 @@
-// /* globals hoodie */
+/* globals PouchDB */
 
-// const $form = document.querySelector('form')
-// const $clearButton = document.querySelector('[data-action="clear"]')
-// const $list = document.querySelector('.list')
+const $form = document.querySelector('form')
+const $clearButton = document.querySelector('[data-action="clear"]')
+const $list = document.querySelector('.list')
+
+const _logs = new PouchDB('http://localhost:5984/logs')
+
+_logs.changes(changeOpts)
+  .on('change', loadAndDraw)
+
+const changeOpts = {
+  since: 'now',
+  live: true
+}
+const allDocsOpts = {
+  include_docs: true,
+  descending: true
+}
+
+loadAndDraw()
+
+_logs.changes(changeOpts)
+  .on('change', loadAndDraw)
+
+
+$clearButton.addEventListener('click', () => removeAll([_logs]))
+
+function loadAndDraw () {
+  _logs.allDocs(allDocsOpts)
+    .then(drawLogs)
+}
+
+function drawLogs ({rows}) {
+  if (rows.length === 0) {
+    return
+  }
+
+  $list.innerHTML = rows
+    .map(({doc}) => {
+      const exclude = ['createdAt', 'updatedAt', '_rev']
+      const date = new Date(doc.updatedAt)
+      let result = `<tr data-id="${doc.id}">
+      <td class="updatedAt">${date}</td>`
+
+      for (let key in doc) {
+        if (!exclude.includes(key)) {
+          result += `<td class="${key}">${doc[key]}</td>`
+        }
+      }
+
+      result += '<td><a href="#" data-action="remove">Delete</a></td></tr>'
+
+      return result
+    }).join('')
+}
+
+
 
 // loadAndRenderItems()
 // hoodie.store.on('change', loadAndRenderItems)
-// $clearButton.addEventListener('click', () => hoodie.store.removeAll())
 // $list.addEventListener('click', handleListClick)
 // $form.addEventListener('submit', handleForm)
 
@@ -87,12 +139,12 @@
 //   }).catch(handleError)
 // }
 
-// function orderByName (item1, item2) {
-//   return item1.name < item2.name ? 1 : -1
-// }
 
-// function handleError (err) {
-//   if (err.status !== 404) {
-//     console.info(err)
-//   }
-// }
+function removeAll (dbs) {
+  dbs.forEach((_db) =>
+    _db.allDocs(allDocsOpts)
+    .then(({rows}) =>
+      Promise.all(rows.map(({doc}) =>
+        _db.remove(doc))))
+  )
+}
