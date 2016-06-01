@@ -1,16 +1,3 @@
-button {
-  font-family: inherit;
-  font-size: inherit;
-  cursor: pointer;
-  color: inherit;
-  border: 1px solid $lighterColor;
-
-  &:hover,
-  &:focus {
-    border: 1px solid $lightColor;
-  }
-}
-
 .btn {
   margin: 1rem;
   padding: 1rem;

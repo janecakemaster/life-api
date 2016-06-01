@@ -1,17 +1,21 @@
+input,
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: 1px solid $lighterColor;
+  border-radius: 3px;
+  color: inherit;
+
+  &:hover,
+  &:focus {
+    border: 1px solid $lightColor;
+  }
+}
+
 input[type='text'] {
   width: 100%;
   margin: 0;
   padding: 1rem;
-  font-size: inherit;
-  color: inherit;
-  border: 1px solid $lighterColor;
-  border-radius: 3px;
-
-  &:focus {
-    border-color: transparent;
-    outline: none;
-    box-shadow: 0 0 0 1px $lightColor;
-  }
 }
 
 label {
