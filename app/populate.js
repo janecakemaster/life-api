@@ -29,6 +29,9 @@ const inputDesign = {
     },
     by_date: {
       map: function (doc) { emit(doc.date) }.toString()
+    },
+    by_text: {
+      map: function (doc) { if (doc.text) emit(doc.text) }.toString()
     }
   }
 }
@@ -63,6 +66,7 @@ function populate () {
     .then(() => _inputs.query('inputs/by_date', {limit: 0}))
     .then(() => _inputs.query('inputs/by_time', {limit: 0}))
     .then(() => _inputs.query('inputs/by_day', {limit: 0}))
+    .then(() => _inputs.query('inputs/by_text', {limit: 0}))
     .catch(winston.error)
 }
 
@@ -219,7 +223,7 @@ function populateEmoji () {
   for (let i = 0; i < emojis.length; i++) {
     docs.push(textInput({
       logId,
-      value: emojis[i].emoji,
+      text: emojis[i].emoji,
       date: moment(emojis[i].time)
     }))
   }

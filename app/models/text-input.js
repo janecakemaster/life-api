@@ -12,14 +12,14 @@ function textInput (a, b) {
   return createDoc(a)
 }
 
-function createDoc ({logId, value, date}) {
+function createDoc ({logId, text, date}) {
   const doc = {
     timestamp: date.format(),
     date: date.format('YYYY-MM-DD'),
     day: date.format('ddd').toLowerCase(),
     time: date.format('HH:mm'),
     type: 'text',
-    value,
+    text,
     logId
   }
 

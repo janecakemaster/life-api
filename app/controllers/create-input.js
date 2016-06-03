@@ -28,16 +28,16 @@ function createInput (request, reply) {
   })
 }
 
-function createTimeInput ({logId, time, value}) {
+function createTimeInput ({logId, time}) {
   const date = moment(new Date(time))
-  const doc = textInput({logId, date, value})
+  const doc = timeInput({logId, date})
 
   return _inputs.put(doc)
 }
 
-function createTextInput ({logId, time, value}) {
+function createTextInput ({logId, time, text}) {
   const date = moment(new Date(time))
-  const doc = timeInput({logId, date})
+  const doc = textInput({logId, date, text})
 
   return _inputs.put(doc)
 }
