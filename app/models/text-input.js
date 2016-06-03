@@ -23,7 +23,7 @@ function createDoc ({logId, text, date}) {
     logId
   }
 
-  doc._id = pouchCollate.toIndexableString([doc.logId, doc.type, doc.timestamp, doc.value]).replace(/\u0000/g, '\u0001')
+  doc._id = pouchCollate.toIndexableString([doc.timestamp, doc.logId, doc.type, doc.text]).replace(/\u0000/g, '\u0001')
 
   return doc
 }
