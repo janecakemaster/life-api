@@ -56,4 +56,4 @@ gulp.task('watch', () => {
 })
 
 gulp.task('build', ['styles', 'libs', 'scripts'])
-gulp.task('default', ['watch', 'clean', 'build'])
+gulp.task('default', ['watch', 'build'])
