@@ -44,8 +44,11 @@ a {
 
   &:hover,
   &.active {
-    text-decoration: underline;
     color: $lightColor;
+  }
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 
