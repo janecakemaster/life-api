@@ -99,7 +99,7 @@ function handleLogsClick (e) {
 }
 
 function timeInput (el) {
-  qwest.post('//localhost:8001/inputs/create', {
+  qwest.post('//localhost:8001/inputs', {
     type: el.getAttribute('data-log-type'),
     logId: el.id,
     time: new Date()
@@ -116,7 +116,7 @@ function timeInput (el) {
 
 function removeAll (dbs) {
   dbs.forEach((_db) =>
-    _db.allDocs(allDocsOpts)
+    _db.allDocs({include_docs: true})
     .then(({rows}) =>
       Promise.all(rows.map(({doc}) =>
         _db.remove(doc))))

@@ -2,8 +2,8 @@ const winston = require('winston')
 const PouchDB = require('pouchdb')
 const moment = require('moment')
 
-const timeInput = require('../collate/time-input')
-const textInput = require('../collate/text-input')
+const timeInput = require('../models/time-input')
+const textInput = require('../models/text-input')
 
 const _inputs = new PouchDB('http://localhost:5984/inputs')
 

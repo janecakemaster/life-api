@@ -1,14 +1,37 @@
+/* global emit */
+
 const winston = require('winston')
 const PouchDB = require('pouchdb')
 const moment = require('moment')
 
-const logType = require('./collate/log-type')
-const timeInput = require('./collate/time-input')
-const textInput = require('./collate/text-input')
-// const scaleInput = require('./collate/scale-input')
+const logType = require('./models/log-type')
+const timeInput = require('./models/time-input')
+const textInput = require('./models/text-input')
+// const scaleInput = require('./models/scale-input')
 
 const _inputs = new PouchDB('http://localhost:5984/inputs')
 const _logs = new PouchDB('http://localhost:5984/logs')
+
+const inputDesign = {
+  _id: '_design/inputs',
+  views: {
+    by_type: {
+      map: function (doc) { emit(doc.type) }.toString()
+    },
+    by_name: {
+      map: function (doc) { emit(doc.name) }.toString()
+    },
+    by_day: {
+      map: function (doc) { emit(doc.day) }.toString()
+    },
+    by_time: {
+      map: function (doc) { emit(doc.time) }.toString()
+    },
+    by_date: {
+      map: function (doc) { emit(doc.date) }.toString()
+    }
+  }
+}
 
 // const allEmoji = ['😪', '😭', '😴', '😡', '😊', '😊', '🙃', '😑', '😡', '😔', '😥', '😭', '😷', '🤒', '🤕', '😴', '💩', '💀']
 
@@ -34,6 +57,12 @@ function populate () {
         populateEmoji()
       ])
     })
+    .then(() => _inputs.put(inputDesign))
+    .then(() => _inputs.query('inputs/by_type', {limit: 0}))
+    .then(() => _inputs.query('inputs/by_name', {limit: 0}))
+    .then(() => _inputs.query('inputs/by_date', {limit: 0}))
+    .then(() => _inputs.query('inputs/by_time', {limit: 0}))
+    .then(() => _inputs.query('inputs/by_day', {limit: 0}))
     .catch(winston.error)
 }
 

@@ -4,7 +4,7 @@ const config = require('config')
 const env = config.get('env')
 
 if (env === 'demo') {
-  require('./lib/populate')()
+  require('./app/populate')()
 }
 
 const server = new Hapi.Server()
@@ -21,7 +21,7 @@ server.connection({
 const apiServer = server.select('api')
 
 apiServer.register([require('vision'), require('inert'), { register: require('lout') }])
-apiServer.route(require('./lib/routes/api'))
+apiServer.route(require('./app/routes/api'))
 
 // web server
 server.connection({
@@ -32,7 +32,7 @@ server.connection({
 const webServer = server.select('web')
 
 webServer.register(require('inert'))
-webServer.route(require('./lib/routes/web'))
+webServer.route(require('./app/routes/web'))
 
 // configure logger
 winston.remove(winston.transports.Console)

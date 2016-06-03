@@ -65,7 +65,7 @@ function handleListClick (e) {
 function handleForm (e) {
   e.preventDefault()
 
-  qwest.post('//localhost:8001/logs/create', {
+  qwest.post('//localhost:8001/logs', {
     type: e.target.logType.value,
     name: e.target.name.value
   }, {

@@ -1,10 +1,5 @@
 # Todos
-* populate 
-  - emoji
-  - daily meditation
-  - left for work at
-* text input UI 
-* implement travis 
+* bar graph for frequency of 
 * write tests
 * talk slides. see `notes.md`
 

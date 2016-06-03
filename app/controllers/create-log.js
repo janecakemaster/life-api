@@ -1,7 +1,7 @@
 const winston = require('winston')
 const PouchDB = require('pouchdb')
 
-const logType = require('../collate/log-type')
+const logType = require('../models/log-type')
 
 const _logs = new PouchDB('http://localhost:5984/logs')
 

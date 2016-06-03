@@ -16,7 +16,7 @@ function createDoc ({logId, date}) {
   const doc = {
     timestamp: date.format(),
     date: date.format('YYYY-MM-DD'),
-    day: date.format('ddd'),
+    day: date.format('ddd').toLowerCase(),
     time: date.format('HH:mm'),
     type: 'time',
     logId
