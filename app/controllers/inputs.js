@@ -3,10 +3,10 @@ const PouchDB = require('pouchdb')
 const pouchCollate = require('pouchdb-collate')
 const moment = require('moment')
 
-const _db = new PouchDB('http://localhost:5984/inputs')
+const constants = require('../constants')
 
-const supportedTypes = ['time', 'text']
-
+const db = require('config').get('db')
+const _db = new PouchDB(`${db}inputs`)
 
 function getInputs (request, reply) {
   const query = interpretQuery(request.query)
@@ -58,17 +58,17 @@ function filterByField (field, val) {
 }
 
 function filterByRange (start, end) {
-  const startMoment = moment(start, 'YYYY-MM-DD')
-  const endMoment = moment(end, 'YYYY-MM-DD') || moment().format('YYYY-MM-DD')
+  const startMoment = moment(start, constants.formatDate)
+  const endMoment = moment(end, constants.formatDate) || moment().format(constants.formatDate)
   const validStartDate = startMoment.isValid()
   const validRange = endMoment.isAfter(startMoment)
   const opts = {}
 
   if (validStartDate) {
-    opts.startkey = pouchCollate.toIndexableString([startMoment.format('YYYY-MM-DD')]).replace(/\u0000/g, '')
+    opts.startkey = pouchCollate.toIndexableString([startMoment.format(constants.formatDate)]).replace(/\u0000/g, '')
   }
   if (validRange) {
-    opts.endkey = pouchCollate.toIndexableString([endMoment.format('YYYY-MM-DD')]).replace(/\u0000/g, '')
+    opts.endkey = pouchCollate.toIndexableString([endMoment.format(constants.formatDate)]).replace(/\u0000/g, '')
   }
 
   return _db.allDocs(opts)
@@ -89,7 +89,7 @@ function sanitize (result) {
 }
 
 function interpretQuery (query) {
-  if (!supportedTypes.includes(query.type)) {
+  if (!constants.supportedTypes.includes(query.type)) {
     delete query.type
   }
 

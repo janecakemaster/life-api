@@ -1,7 +1,9 @@
 const winston = require('winston')
 const PouchDB = require('pouchdb')
-const _logs = new PouchDB('http://localhost:5984/logs')
-const _inputs = new PouchDB('http://localhost:5984/inputs')
+
+const db = require('config').get('db')
+const _logs = new PouchDB(`${db}logs`)
+const _inputs = new PouchDB(`${db}inputs`)
 
 function getLogs (request, reply) {
   const logName = request.params.name

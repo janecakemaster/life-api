@@ -7,10 +7,10 @@ const moment = require('moment')
 const logType = require('./models/log-type')
 const timeInput = require('./models/time-input')
 const textInput = require('./models/text-input')
-// const scaleInput = require('./models/scale-input')
 
-const _inputs = new PouchDB('http://localhost:5984/inputs')
-const _logs = new PouchDB('http://localhost:5984/logs')
+const db = require('config').get('db')
+const _logs = new PouchDB(`${db}logs`)
+const _inputs = new PouchDB(`${db}inputs`)
 
 const inputDesign = {
   _id: '_design/inputs',
@@ -36,7 +36,6 @@ const inputDesign = {
   }
 }
 
-// const allEmoji = ['😪', '😭', '😴', '😡', '😊', '😊', '🙃', '😑', '😡', '😔', '😥', '😭', '😷', '🤒', '🤕', '😴', '💩', '💀']
 
 function populate () {
   _logs.allDocs({include_docs: true})

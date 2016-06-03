@@ -1,4 +1,5 @@
 const pouchCollate = require('pouchdb-collate')
+const constants = require('../constants')
 
 function textInput (a, b) {
   if (b) {
@@ -15,9 +16,9 @@ function textInput (a, b) {
 function createDoc ({logId, text, date}) {
   const doc = {
     timestamp: date.format(),
-    date: date.format('YYYY-MM-DD'),
-    day: date.format('ddd').toLowerCase(),
-    time: date.format('HH:mm'),
+    date: date.format(constants.formatDate),
+    day: date.format(constants.formatDay).toLowerCase(),
+    time: date.format(constants.formatTime),
     type: 'text',
     text,
     logId

@@ -1,3 +1,4 @@
 {
-  "env": "development"
+  "env": "development",
+  "db": "http://localhost:5984/"
 }
