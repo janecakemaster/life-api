@@ -14,7 +14,13 @@ const dirs = {
   styles: 'src/styles/',
   scripts: 'src/scripts/',
   libs: 'src/libs/',
+  clean: ['public/assets/**/*.js', 'public/assets/**/*.css', 'public/assets/**/*.map']
 }
+
+gulp.task('clean', () => {
+  return gulp.src(dirs.clean, {read: false})
+    .pipe(clean())
+})
 
 gulp.task('styles', () => {
   return gulp.src(`${dirs.styles}app.scss`)
@@ -50,4 +56,4 @@ gulp.task('watch', () => {
 })
 
 gulp.task('build', ['styles', 'libs', 'scripts'])
-gulp.task('default', ['watch', 'build'])
+gulp.task('default', ['watch', 'clean', 'build'])
