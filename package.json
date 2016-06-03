@@ -14,7 +14,7 @@
   "scripts": {
     "test": "tape test/*.js",
     "start": "node app.js",
-    "watch": "NODE_ENV=demo nodemon app.js -w 'lib' -w 'app.js' -w 'routes'",
+    "watch": "NODE_ENV=demo nodemon app.js -e -e js,html -w lib -w app.js -w routes -w public -i public/assets",
     "build": "gulp build"
   },
   "dependencies": {
