@@ -2,7 +2,8 @@
 **/*.log
 node_modules
 data
-public/assets
 *.sublime*
 couchdb*
+public/assets/*.css*
+public/assets/*.js
 notes.md

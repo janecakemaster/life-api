@@ -13,6 +13,7 @@ const dirs = {
   src: 'src/',
   styles: 'src/styles/',
   scripts: 'src/scripts/',
+  libs: 'src/libs/',
 }
 
 gulp.task('styles', () => {
@@ -32,6 +33,11 @@ gulp.task('scripts', () => {
     .pipe(gulp.dest(dirs.dest))
 })
 
+gulp.task('libs', () => {
+  return gulp.src(`${dirs.libs}**/*.js`)
+    .pipe(gulp.dest(dirs.dest))
+})
+
 gulp.task('reload', ['styles', 'scripts'], () => {
   livereload.reload()
 })
@@ -43,5 +49,5 @@ gulp.task('watch', () => {
   gulp.watch('public/**/*', ['reload'])
 })
 
-gulp.task('build', ['styles', 'scripts'])
+gulp.task('build', ['styles', 'libs', 'scripts'])
 gulp.task('default', ['watch', 'build'])
