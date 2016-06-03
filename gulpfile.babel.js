@@ -44,7 +44,7 @@ gulp.task('libs', () => {
     .pipe(gulp.dest(dirs.dest))
 })
 
-gulp.task('reload', ['styles', 'scripts'], () => {
+gulp.task('reload', () => {
   livereload.reload()
 })
 
