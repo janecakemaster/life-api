@@ -29,9 +29,8 @@ function loadAndDraw () {
     descending: true
   }).then(drawInputs)
 
-  _logs.allDocs({
-    include_docs: true
-  }).then(drawLogs)
+  _logs.allDocs({include_docs: true})
+    .then(drawLogs)
 }
 
 function drawLogs ({rows}) {
