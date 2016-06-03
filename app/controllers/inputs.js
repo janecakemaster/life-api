@@ -26,6 +26,9 @@ function listInputsByQuery (query) {
   if (query.type) {
     return filterByField('type', query.type)
   }
+  if (query.date) {
+    return filterByField('date', query.date)
+  }
   if (query.day) {
     return filterByField('day', query.day)
   }
