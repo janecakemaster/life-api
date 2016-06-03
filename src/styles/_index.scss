@@ -1,15 +1,7 @@
-@mixin circle($size, $color) {
-  width: $size;
-  height: $size;
-  border: 0;
-  border-radius: 100%;
-  background: $color;
-}
-
 .log-type {
   ul {
     display: flex;
-    justify-content: sace-around;
+    justify-content: space-around;
   }
 }
 
@@ -31,17 +23,32 @@
   }
 }
 
-.log-time button {
-  @include circle(100px, $inputColor2);
+.log-text {
+  display: flex;
+  justify-content: space-around;
+  margin: .5rem;
+
+  :first-child {
+    border-right: 0;
+    border-radius: $borderRadius 0 0 $borderRadius;
+  }
+
+  :last-child {
+    border-radius: 0 $borderRadius $borderRadius 0;
+  }
+
+  .btn {
+    margin: 0;
+  }
 }
 
 .log-completed button {
   width: 100px;
   height: 100px;
-  border: 2px solid $inputColor1;
+  border: 2px solid darken($darkColor, 20%);
 
   &.on {
-    background: $inputColor1;
+    background: darken($darkColor, 20%);
   }
 }
 

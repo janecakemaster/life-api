@@ -1,29 +1,30 @@
-.btn {
-  margin: 1rem;
-  padding: 1rem;
-  color: inherit;
-  border-radius: 3px;
-  background: white;
+button {
+  height: 2.5rem;
+  margin: 0;
+  padding: 0 1rem;
+  font-family: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  color: $lightColor;
+  border: 1px solid lighten($darkColor, 10%);
+  border-radius: $borderRadius;
+  background: $darkColor;
 
-  &.small {
-    padding: .5rem;
-    font-size: .8rem;
+  &:hover {
+    color: $darkColor;
+    background: $lightColor;
   }
+}
+
+.btn {
+  border-radius: $borderRadius;
 
   &.primary {
     color: #fff;
-    border: 1px solid blue;
-    background: blue;
+    border: $border;
   }
 }
 
 .btn-link {
   padding: 1rem;
-}
-
-.signout {
-  margin: 25px 0;
-  padding: 15px 0;
-  text-align: right;
-  border-top: 1px solid #a1a1a1;
 }

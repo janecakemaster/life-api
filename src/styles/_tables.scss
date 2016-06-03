@@ -1,7 +1,5 @@
-$border: 1px solid lighten($lightestColor, 10%);
-
 table {
-  width: auto;
+  width: 100%;
   margin: 1rem auto;
   font-size: .8rem;
   border: $border;
@@ -18,7 +16,7 @@ td {
 
 tr {
   &:hover {
-    background: $lightestColor;
+    background: lighten($lightColor, 20%);
   }
 }
 

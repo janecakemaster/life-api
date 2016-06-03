@@ -1,9 +1,4 @@
-$darkerColor: darken(#207cd0, 40%);
-$baseColor: #082137;
-$lightColor: #207cd0;
-$lighterColor: lighten(#207cd0, 20%);
-$lightestColor: lighten(#207cd0, 50%);
-$accentColor: #d0207c;
-$inputColor1: #aed2f3;
-$inputColor2: #aef3f2;
-$inputColor3: #aef3f2;
+$lightColor: #ecb794;
+$darkColor: #4118ae;
+$border: 1px solid lighten($darkColor, 15%);
+$borderRadius: 3px;

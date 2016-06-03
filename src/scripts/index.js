@@ -10,10 +10,6 @@ const changeOpts = {
   since: 'now',
   live: true
 }
-const allDocsOpts = {
-  include_docs: true,
-  descending: true
-}
 
 loadAndDraw()
 
@@ -28,11 +24,14 @@ $logs.addEventListener('click', handleLogsClick)
 $inputs.addEventListener('click', handleInputsClick)
 
 function loadAndDraw () {
-  _inputs.allDocs(allDocsOpts)
-    .then(drawInputs)
+  _inputs.allDocs({
+    include_docs: true,
+    descending: true
+  }).then(drawInputs)
 
-  _logs.allDocs(allDocsOpts)
-    .then(drawLogs)
+  _logs.allDocs({
+    include_docs: true
+  }).then(drawLogs)
 }
 
 function drawLogs ({rows}) {
@@ -42,9 +41,12 @@ function drawLogs ({rows}) {
   }
 
   $logs.innerHTML = rows
-    .map(({doc}) =>
-      `<div class="log"><button data-log-type="${doc.type}" id="${doc._id}">${doc.name}</button></div>`
-    ).join('')
+    .map(({doc}) => {
+      if (doc.type === 'text') {
+        return `<div class="log log-${doc.type}"><input type="text"/><button class="btn" data-log-type="${doc.type}" id="${doc._id}">${doc.name}</button></div>`
+      }
+      return `<div class="log log-${doc.type}"><button data-log-type="${doc.type}" id="${doc._id}">${doc.name}</button></div>`
+    }).join('')
 }
 
 function drawInputs ({rows}) {

@@ -12,6 +12,16 @@ header {
 
   h1 {
     font-size: 2em;
+
+    a,
+    a.active {
+      color: $darkColor;
+      text-decoration: none;
+
+      &:hover {
+        color: $lightColor;
+      }
+    }
   }
 }
 
