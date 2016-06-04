@@ -1,14 +1,31 @@
-/* global d3 qwest */
+/* global d3 qwest PouchDB */
 
-qwest.get('//localhost:8001/logs/text-emoji', {}, {cache: true})
-  .then((xhr, response) => {
-    const data = sift(response)
+const _inputs = new PouchDB('http://localhost:5984/inputs')
 
-    drawEmojiFrequency({data, sel: '#emoji'})
-  })
+_inputs.changes({
+  since: 'now',
+  live: true
+}).on('change', getEmojiInfo)
 
+getEmojiInfo()
 
-function drawEmojiFrequency ({sel = '#emoji', data}) {
+function getEmojiInfo () {
+  qwest.get('//localhost:8001/logs/text-emoji', {}, {cache: true})
+    .then((xhr, response) => {
+      const sel = '#emoji'
+
+      document.querySelector(sel).innerHTML = ''
+      drawEmojiFrequency({
+        data: sift(response),
+        sel
+      })
+    })
+}
+
+function drawEmojiFrequency ({
+  sel = '#emoji',
+  data
+}) {
   const width = 420
   const barHeight = 50
   const max = d3.max(data, (d) => d.frequency)

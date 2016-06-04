@@ -95,14 +95,34 @@ function handleLogsClick (e) {
     case 'time':
       timeInput(e.target)
       break
+    case 'text':
+      textInput(e.target, e.target.previousSibling.value)
+      break
   }
 }
 
 function timeInput (el) {
   qwest.post('//localhost:8001/inputs', {
-    type: el.getAttribute('data-log-type'),
+    type: 'time',
     logId: el.id,
     time: new Date()
+  }, {
+    cache: true
+  })
+  .then((xhr, response) => {
+
+  })
+  .catch((err, xhr, response) => {
+    console.error('error', err)
+  })
+}
+
+function textInput (el, val) {
+  qwest.post('//localhost:8001/inputs', {
+    type: 'text',
+    logId: el.id,
+    time: new Date(),
+    text: val
   }, {
     cache: true
   })
