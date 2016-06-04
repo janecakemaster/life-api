@@ -4,7 +4,7 @@ const _inputs = new PouchDB('http://localhost:5984/inputs')
 
 function update () {
   getEmojiInfo()
-  // getDrinkInfo()
+  getDrinkInfo()
   getTrends()
 }
 
@@ -105,7 +105,7 @@ function drawTrends ({data, sel}) {
       .data(color.domain())
     .enter().append('g')
       .attr('class', 'legend')
-      .attr('transform', function(d, i) { return 'translate(0,' + i * 20 + ')' })
+      .attr('transform', (d, i) => 'translate(0,' + i * 20 + ')' )
 
   legend.append('rect')
     .attr('x', width - 18)
@@ -140,20 +140,49 @@ function siftTimes (values) {
   return result
 }
 
-// function getDrinkInfo () {
-//   // @todo do this based on changes instead
-//   qwest.get('//localhost:8001/logs/time-drinks', {}, {cache: true})
-//     .then((xhr, response) => {
-//       const sel = '#emoji'
+function getDrinkInfo () {
+  // @todo do this based on changes instead
+  qwest.get('//localhost:8001/logs/time-drinks', {}, {cache: true})
+    .then((xhr, response) => {
+      const sel = '#drunk'
 
-//       document.querySelector(sel).innerHTML = ''
-//       drawEmojiFrequency({
-//         data: siftEmojis(response),
-//         sel
-//       })
-//     })
-// }
+      document.querySelector(sel).innerHTML = ''
+      drawDrunk({
+        data: siftDrinks(response),
+        sel
+      })
+    })
+}
 
+function drawDrunk ({data, sel}) {
+  const svg = document.querySelector(sel)
+  const radius = [0, 20, 50, 80, 110, 150]
+  const pos = [0, 30, 70, 100, 130, 170]
+  const colors = ['#fff', '#ffd8d8', '#ffb1b1', '#ff8989', '#ff4e4e', '#ff1414']
+
+  svg.innerHTML = `<circle cx="${pos[data]}" cy="${pos[data]}" fill="${colors[data]}" r='${radius[data]}'></circle>`
+  svg.setAttribute('width', pos[data] * 2)
+  svg.setAttribute('height', pos[data] * 2)
+}
+
+function siftDrinks (data) {
+  const now = Date.now()
+  const last = data
+    .slice(data.length - 7, data.length)
+    .map(({timestamp}) => Date.parse(timestamp))
+  const threshold = 86400000 / 2
+  let count = 0
+
+  while (last.length) {
+    const earliest = last.shift()
+
+    if ((now - earliest) < threshold) {
+      count++
+    }
+  }
+
+  return count
+}
 
 function drawEmojiFrequency ({sel, data}) {
   const width = 420
