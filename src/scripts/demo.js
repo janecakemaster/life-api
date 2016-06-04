@@ -2,17 +2,19 @@
 
 const _inputs = new PouchDB('http://localhost:5984/inputs')
 
-function draw () {
+function update () {
   getEmojiInfo()
+  // getDrinkInfo()
+  getTrends()
 }
 
 function getEmojiInfo () {
-  // @todo do this based on chnages instead
+  const sel = '#emoji'
+
+  document.querySelector(sel).innerHTML = ''
+  // @todo do this based on changes instead
   qwest.get('//localhost:8001/logs/text-emoji', {}, {cache: true})
     .then((xhr, response) => {
-      const sel = '#emoji'
-
-      document.querySelector(sel).innerHTML = ''
       drawEmojiFrequency({
         data: siftEmojis(response),
         sel
@@ -20,10 +22,140 @@ function getEmojiInfo () {
     })
 }
 
-function drawEmojiFrequency ({
-  sel = '#emoji',
-  data
-}) {
+function getTrends () {
+  const sel = '#trends'
+
+  qwest
+    .get('//localhost:8001/logs/time-morning-meds', {}, {cache: true})
+    .get('//localhost:8001/logs/time-mood-drop', {}, {cache: true})
+    .get('//localhost:8001/logs/time-bedtime', {}, {cache: true})
+    .then((values) => {
+      document.querySelector(sel).innerHTML = ''
+
+      drawTrends({
+        data: siftTimes(values),
+        sel
+      })
+    })
+    .catch(console.log)
+}
+
+function drawTrends ({data, sel}) {
+  const margin = {top: 20, right: 20, bottom: 30, left: 40}
+  const width = 500
+  const height = 400
+
+  const color = d3.scale.category10()
+
+  const x = d3.time.scale()
+    .domain([new Date(2016, 2, 1), new Date(2016, 2, 31)])
+    .range([0, width])
+
+  const y = d3.time.scale()
+    .domain([new Date('2016-03-01T00:00:00.000Z'), new Date('2016-03-02T00:00:00.000Z')])
+    .range([height, 0])
+  const xAxis = d3.svg.axis()
+    .scale(x)
+    .orient('bottom')
+  const yAxis = d3.svg.axis()
+    .scale(y)
+    .orient('left')
+
+  const svg = d3.select(sel)
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+    .append('g')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+
+  x.domain(d3.extent(data, function (d) { return d.date })).nice()
+  y.domain(d3.extent(data, function (d) { return d.time })).nice()
+
+  svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(xAxis)
+    .append('text')
+      .attr('class', 'label')
+      .attr('x', width)
+      .attr('y', -6)
+      .style('text-anchor', 'start')
+      .text('Date')
+
+  svg.append('g')
+      .attr('class', 'y axis')
+      .call(yAxis)
+    .append('text')
+      .attr('class', 'label')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 6)
+      .attr('dy', '.71em')
+      .style('text-anchor', 'start')
+      .text('Time')
+
+  svg.selectAll('.dot')
+      .data(data)
+    .enter().append('circle')
+      .attr('class', 'dot')
+      .attr('r', 3.5)
+      .attr('cx', (d) => { return x(d.date) })
+      .attr('cy', (d) => { return y(d.time) })
+      .style('fill', (d) => { return color(d.log) })
+
+  const legend = svg.selectAll('.legend')
+      .data(color.domain())
+    .enter().append('g')
+      .attr('class', 'legend')
+      .attr('transform', function(d, i) { return 'translate(0,' + i * 20 + ')' })
+
+  legend.append('rect')
+    .attr('x', width - 18)
+    .attr('width', 18)
+    .attr('height', 18)
+    .style('fill', color)
+
+  legend.append('text')
+    .attr('x', width - 24)
+    .attr('y', 9)
+    .attr('dy', '.35em')
+    .style('text-anchor', 'end')
+    .text((d) => { return d })
+}
+
+function siftTimes (values) {
+  const result = []
+  const timeFormat = d3.time.format('%H:%M')
+  const dateFormat = d3.time.format('%Y-%m-%d')
+
+  values.forEach((item) => {
+    const [xhr, response] = item
+    const log = xhr.responseURL.split('/').pop()
+
+    response.forEach(({date, time}) => {
+      result.push({
+        date: dateFormat.parse(date),
+        time: timeFormat.parse(time),
+        log})
+    })
+  })
+  return result
+}
+
+// function getDrinkInfo () {
+//   // @todo do this based on changes instead
+//   qwest.get('//localhost:8001/logs/time-drinks', {}, {cache: true})
+//     .then((xhr, response) => {
+//       const sel = '#emoji'
+
+//       document.querySelector(sel).innerHTML = ''
+//       drawEmojiFrequency({
+//         data: siftEmojis(response),
+//         sel
+//       })
+//     })
+// }
+
+
+function drawEmojiFrequency ({sel, data}) {
   const width = 420
   const barHeight = 50
   const max = d3.max(data, (d) => d.frequency)
@@ -81,9 +213,9 @@ function siftEmojis (data) {
   })
 }
 
-draw()
+update()
 
 _inputs.changes({
   since: 'now',
   live: true
-}).on('change', draw)
+}).on('change', update)

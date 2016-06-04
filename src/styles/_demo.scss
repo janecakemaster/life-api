@@ -6,36 +6,49 @@
   }
 }
 
-.bar {
-  opacity: .7;
+#emoji {
+  .bar {
+    opacity: .7;
 
-  rect {
-    fill: $darkColor;
+    rect {
+      fill: $darkColor;
+    }
+
+    text {
+      fill: black;
+      text-anchor: end;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
-  text {
-    fill: black;
-    text-anchor: end;
+  .emoji {
+    font-size: 3rem;
   }
 
-  &:hover {
-    opacity: 1;
+  .axis {
+    path,
+    line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
   }
 }
 
-.emoji {
-  font-size: 3rem;
-}
-
-.axis {
-  text {
-
+#trends {
+  .axis {
+    path,
+    line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
   }
 
-  path,
-  line {
-    fill: none;
+  .dot {
     stroke: #000;
-    shape-rendering: crispEdges;
   }
 }

@@ -53,7 +53,10 @@ function populate () {
     .then(() => {
       // populate dummy data
       Promise.all([
-        populateMorningMeds(),
+        populateMorningMeds({
+          startTime: moment('2016-03-01 09:30'),
+          badTime: moment('2016-03-01 12:30')
+        }),
         populateMoodDrop(),
         populateBedtime(),
         populateDrinks(),
@@ -61,30 +64,21 @@ function populate () {
       ])
     })
     .then(() => _inputs.put(inputDesign))
-    .then(() => _inputs.query('inputs/by_type', {limit: 0}))
-    .then(() => _inputs.query('inputs/by_name', {limit: 0}))
-    .then(() => _inputs.query('inputs/by_date', {limit: 0}))
-    .then(() => _inputs.query('inputs/by_time', {limit: 0}))
-    .then(() => _inputs.query('inputs/by_day', {limit: 0}))
-    .then(() => _inputs.query('inputs/by_text', {limit: 0}))
     .catch(winston.error)
 }
 
-function populateMorningMeds ({
-  startTime = moment('2016-03-01 09:30'),
-  badTime = moment('2016-03-01 12:30')
-} = {}) {
+function populateMorningMeds ({startTime, badTime}) {
   const id = 'morning-meds'
   const name = 'Morning Meds'
   const type = 'time'
   const logId = `${type}-${id}`
-  const badLog = logType({id, name, type})
+  const log = logType({id, name, type})
   const docs = [timeInput({
     date: badTime,
     logId
   })]
 
-  _logs.put(badLog).catch(winston.error)
+  _logs.put(log).catch(winston.error)
 
   for (let i = 0; i <= 14; i++) {
     const minuteDiff = Math.floor(Math.random() * 60) + 1
@@ -161,7 +155,7 @@ function populateBedtime () {
   const log = logType({id, name, type})
   const docs = []
 
-  for (let i = 0; i <= sleepTimes.length; i++) {
+  for (let i = 0; i < sleepTimes.length; i++) {
     const date = moment(sleepTimes[i])
 
     docs.push(timeInput({
@@ -200,7 +194,7 @@ function populateDrinks () {
   const log = logType({id, name, type})
   const docs = []
 
-  for (let i = 0; i <= drinks.length; i++) {
+  for (let i = 0; i < drinks.length; i++) {
     const date = moment(drinks[i])
 
     docs.push(timeInput({
