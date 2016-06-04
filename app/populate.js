@@ -55,7 +55,8 @@ function populate () {
       Promise.all([
         populateMorningMeds(),
         populateMoodDrop(),
-        populateSleepTimes(),
+        populateBedtime(),
+        populateDrinks(),
         populateEmoji()
       ])
     })
@@ -142,7 +143,7 @@ function populateMoodDrop () {
     .catch(winston.error)
 }
 
-function populateSleepTimes () {
+function populateBedtime () {
   const sleepTimes = [
     '2016-03-02 00:30',
     '2016-03-03 01:30',
@@ -162,6 +163,45 @@ function populateSleepTimes () {
 
   for (let i = 0; i <= sleepTimes.length; i++) {
     const date = moment(sleepTimes[i])
+
+    docs.push(timeInput({
+      logId,
+      date
+    }))
+  }
+
+  _logs.put(log).catch(winston.error)
+
+  _inputs.bulkDocs(docs)
+    .then((result) =>
+      Promise.all(result.map(({id}) =>
+        _inputs.get(id)
+    )))
+    .then((result) =>
+      Promise.all(result.map(({_id}) =>
+        winston.debug(_id)
+    )))
+    .catch(winston.error)
+}
+
+function populateDrinks () {
+  const drinks = [
+    '2016-05-29 22:30',
+    '2016-05-30 22:30',
+    '2016-05-30 23:05',
+    '2016-05-30 23:30',
+    '2016-05-31 00:41',
+    '2016-05-31 02:50'
+  ]
+  const id = 'drinks'
+  const name = 'Drinks'
+  const type = 'time'
+  const logId = `${type}-${id}`
+  const log = logType({id, name, type})
+  const docs = []
+
+  for (let i = 0; i <= drinks.length; i++) {
+    const date = moment(drinks[i])
 
     docs.push(timeInput({
       logId,

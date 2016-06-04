@@ -2,21 +2,19 @@
 
 const _inputs = new PouchDB('http://localhost:5984/inputs')
 
-_inputs.changes({
-  since: 'now',
-  live: true
-}).on('change', getEmojiInfo)
-
-getEmojiInfo()
+function draw () {
+  getEmojiInfo()
+}
 
 function getEmojiInfo () {
+  // @todo do this based on chnages instead
   qwest.get('//localhost:8001/logs/text-emoji', {}, {cache: true})
     .then((xhr, response) => {
       const sel = '#emoji'
 
       document.querySelector(sel).innerHTML = ''
       drawEmojiFrequency({
-        data: sift(response),
+        data: siftEmojis(response),
         sel
       })
     })
@@ -62,7 +60,7 @@ function drawEmojiFrequency ({
     .text((d) => d.text)
 }
 
-function sift (data) {
+function siftEmojis (data) {
   const result = []
   const found = {}
 
@@ -82,3 +80,10 @@ function sift (data) {
     return a.text < b.text ? -1 : 1
   })
 }
+
+draw()
+
+_inputs.changes({
+  since: 'now',
+  live: true
+}).on('change', draw)
