@@ -27,7 +27,7 @@ function getLogInputs (logName) {
           .filter(({id}) => id.includes(logName))
           .map(({id}) => _inputs.get(id))))
     .then((result) =>
-      result.map(({doc}) => {
+      result.map((doc) => {
         delete doc._rev
         delete doc._id
         delete doc.type
@@ -35,8 +35,7 @@ function getLogInputs (logName) {
 
         return doc
       })
-      .sort(sortByTime)
-    )
+      .sort(sortByTime))
 }
 
 function listLogs () {

@@ -1,0 +1,39 @@
+.example {
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+.bar {
+  opacity: .7;
+
+  rect {
+    fill: $darkColor;
+  }
+
+  text {
+    fill: black;
+    text-anchor: end;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.emoji {
+  font-size: 3rem;
+}
+
+.axis {
+  text {
+
+  }
+
+  path,
+  line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+}
