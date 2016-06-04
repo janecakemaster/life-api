@@ -168,9 +168,9 @@ function drawDrunk ({data, sel}) {
 function siftDrinks (data) {
   const now = Date.now()
   const last = data
-    .slice(data.length - 7, data.length)
+    .slice(data.length - 5, data.length)
     .map(({timestamp}) => Date.parse(timestamp))
-  const threshold = 86400000 / 2
+  const threshold = 86400000 / 4
   let count = 0
 
   while (last.length) {
