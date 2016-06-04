@@ -1,6 +1,6 @@
 # life-api
 
-life-api is a simple Hoodie app... @todo
+self quantification without wearables -- keep your data and have it too
 
 ## Setup
 
@@ -17,19 +17,12 @@ Start server with
 npm start
 ```
 
-## Tests
+## Demo
 
-Install devDependencies by running `npm install` without `--production`
+Make sure to have [CouchDB](http://docs.couchdb.org/en/1.6.1/index.html) running in the background. then `gulp` and `npm run watch`. this runs the demo environment with some cool new data
 
-```
-npm install
-```
-
-Then run tests with
-
-```
-npm test
-```
+## Questions? Comments?
+Open an issue or [@](https://twitter.com/janecakemaster) me
 
 ## License
 
