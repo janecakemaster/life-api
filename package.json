@@ -22,7 +22,7 @@
     "build": "gulp build"
   },
   "dependencies": {
-    "hoodie": "^21.0.1"
+    "hoodie": "^22.5.0"
   },
   "devDependencies": {
     "@gr2m/frontend-test-setup": "^1.1.3",
