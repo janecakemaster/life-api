@@ -19,14 +19,12 @@ const dirs = {
 
 export const clean = () => del(dirs.clean)
 export const styles = () =>
-  gulp.src(`${dirs.styles}app.scss`)
-    .pipe(sourcemaps.init())
+  gulp.src(`${dirs.styles}app.scss`, { sourcemaps: true })
     .pipe(sass.sync().on('error', sass.logError))
-    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(dirs.dest))
 
 export const scripts = () =>
-  gulp.src(`${dirs.scripts}**/*.js`)
+  gulp.src(`${dirs.scripts}**/*.js`, { sourcemaps: true })
     .pipe(eslint())
     .pipe(babel({
       presets: ['es2015'],
