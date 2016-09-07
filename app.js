@@ -36,14 +36,16 @@ webServer.route(require('./app/routes/web'))
 
 // configure logger
 winston.remove(winston.transports.Console)
-winston.add(winston.transports.Console, {
-  colorize: true,
-  level: 'debug'
-})
 
 if (env === 'production') {
   winston.add(winston.transports.File, {
-    filename: 'logs/info.log'
+    filename: 'logs/info.log',
+    level: 'info'
+  })
+} else {
+  winston.add(winston.transports.Console, {
+    colorize: true,
+    level: 'debug'
   })
 }
 

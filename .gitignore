@@ -4,6 +4,6 @@ node_modules
 data
 *.sublime*
 couchdb*
-public/assets/*.css*
-public/assets/*.js
-notes.md
+public/**/*.css*
+public/**/*.js
+notes*
