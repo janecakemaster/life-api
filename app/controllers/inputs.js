@@ -5,8 +5,8 @@ const moment = require('moment')
 
 const constants = require('../constants')
 
-const db = require('config').get('db')
-const _db = new PouchDB(`${db}inputs`)
+const dbLoc = require('config').get('db')
+const _db = new PouchDB(`${dbLoc}inputs`)
 
 function getInputs (request, reply) {
   const query = interpretQuery(request.query)

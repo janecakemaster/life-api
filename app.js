@@ -49,7 +49,8 @@ if (env === 'production') {
   })
 }
 
-server.start()
+server
+  .start()
   .then(() => {
     server.table().forEach((connection) => {
       winston.info(`${connection.labels} server running at ${connection.info.uri}`)

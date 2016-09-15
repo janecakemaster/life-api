@@ -11,26 +11,22 @@ module.exports = [
     config: {
       cors: true // @todo stricter options
     }
-  },
-  {
+  }, {
     method: 'GET',
     path: '/inputs',
     handler: require('../controllers/inputs')
-  },
-  {
+  }, {
     method: 'POST',
     path: '/logs',
     handler: require('../controllers/create-log'),
     config: {
       cors: true
     }
-  },
-  {
+  }, {
     method: 'GET',
     path: '/logs/{name?}',
     handler: require('../controllers/logs')
-  },
-  {
+  }, {
     method: 'GET',
     path: '/',
     handler: (request, reply) => {

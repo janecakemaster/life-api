@@ -4,6 +4,10 @@
   h2 {
     margin-bottom: 1rem;
   }
+
+  &.block {
+    min-height: 500px;
+  }
 }
 
 #emoji {
