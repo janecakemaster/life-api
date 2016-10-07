@@ -2,6 +2,8 @@
 
 self quantification without wearables -- keep your data and have it too
 
+[watch the talk](https://www.youtube.com/watch?v=7hlN6yDS3Xw)
+
 ## Setup
 
 ```bash
